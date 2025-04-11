@@ -1,0 +1,34 @@
+name: Run order service tests
+on:
+  push:
+    branches:
+      - '*'
+    paths:
+      - 'internal/**.go'
+  pull_request:
+    branches:
+      - '*'
+    paths:
+      - 'internal/**.go'
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run unit tests
+        run: go test ./internal/services/... -v --cover
+
+      - name: Run integration tests
+        run: go test ./internal/handlers/... -v --cover
