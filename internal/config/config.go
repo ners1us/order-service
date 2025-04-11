@@ -8,7 +8,7 @@ type Config struct {
 	Port      string
 }
 
-func InitConfig() *Config {
+func NewConfig() *Config {
 	return &Config{
 		DbUrl:     getEnv("DB_URL"),
 		JWTSecret: getEnv("JWT_SECRET"),

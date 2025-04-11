@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	cfg := config.InitConfig()
+	cfg := config.NewConfig()
 
 	db, err := database.NewDB(cfg.DbUrl)
 	if err != nil {
