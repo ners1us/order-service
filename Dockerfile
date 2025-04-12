@@ -8,6 +8,7 @@ RUN CGO_ENABLED=0 go build -o main .
 
 FROM alpine:latest
 EXPOSE 8080
+EXPOSE 3000
 WORKDIR /root
 COPY --from=build /app/cmd/order-service/main .
 CMD ["./main"]
