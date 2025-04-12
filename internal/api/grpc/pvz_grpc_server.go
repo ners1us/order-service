@@ -37,12 +37,12 @@ func NewServer(pvzRepo repositories.PVZRepository, port string) (*PVZGrpcServer,
 	}, nil
 }
 
-func (s *PVZGrpcServer) Start() error {
+func (pgs *PVZGrpcServer) Start() error {
 	log.Println("starting gRPC server...")
-	return s.server.Serve(s.listener)
+	return pgs.server.Serve(pgs.listener)
 }
 
-func (s *PVZGrpcServer) Stop(ctx context.Context) {
+func (pgs *PVZGrpcServer) Stop(ctx context.Context) {
 	shutdownCtx, cancel := context.WithTimeout(ctx, time.Second*5)
 	defer cancel()
 
@@ -50,14 +50,14 @@ func (s *PVZGrpcServer) Stop(ctx context.Context) {
 
 	go func() {
 		defer close(doneCh)
-		s.server.GracefulStop()
+		pgs.server.GracefulStop()
 	}()
 
 	select {
 	case <-doneCh:
 		log.Println("gRPC server stopped gracefully")
 	case <-shutdownCtx.Done():
-		defer s.server.Stop()
+		defer pgs.server.Stop()
 		log.Println("gRPC server forced to stop")
 	}
 }
