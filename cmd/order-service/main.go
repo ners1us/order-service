@@ -2,17 +2,13 @@ package main
 
 import (
 	"context"
-	"errors"
-	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/api/grpc"
 	"github.com/ners1us/order-service/internal/api/rest"
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
-	"github.com/ners1us/order-service/internal/middleware"
 	"github.com/ners1us/order-service/internal/repositories"
 	"github.com/ners1us/order-service/internal/services"
 	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -58,29 +54,19 @@ func main() {
 		}
 	}()
 
-	r := gin.Default()
-
-	r.POST("/dummyLogin", userHandler.DummyLogin)
-	r.POST("/register", userHandler.Register)
-	r.POST("/login", userHandler.Login)
-
-	secured := r.Group("/", middleware.AuthMiddleware(jwtService))
-	secured.POST("/pvz", pvzHandler.CreatePVZ)
-	secured.GET("/pvz", pvzHandler.GetPVZList)
-	secured.POST("/pvz/:pvzId/close_last_reception", receptionHandler.CloseLastReception)
-	secured.POST("/pvz/:pvzId/delete_last_product", productHandler.DeleteLastProduct)
-	secured.POST("/receptions", receptionHandler.CreateReception)
-	secured.POST("/products", productHandler.AddProduct)
-
-	srv := &http.Server{
-		Addr:    ":" + cfg.RestPort,
-		Handler: r,
-	}
+	httpServer := rest.NewHTTPServer(
+		cfg.RestPort,
+		userHandler,
+		pvzHandler,
+		receptionHandler,
+		productHandler,
+		jwtService,
+	)
+	httpServer.ConfigureRoutes()
 
 	go func() {
-		log.Println("starting HTTP server...")
-		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			log.Fatalf("failed running HTTP server: %v", err)
+		if err := httpServer.Start(); err != nil {
+			log.Fatalf("failed to start HTTP server: %v", err)
 		}
 	}()
 
@@ -92,9 +78,9 @@ func main() {
 
 	grpcServer.Stop(ctx)
 
-	if err := srv.Shutdown(ctx); err != nil {
+	if err := httpServer.Stop(ctx); err != nil {
 		log.Printf("HTTP server shutdown error: %v", err)
 	}
 
-	log.Println("servers gracefully stopped")
+	log.Println("servers stopped gracefully")
 }
