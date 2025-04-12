@@ -2,8 +2,7 @@ services:
   rest-app:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: [ "./rest-app" ]
+      dockerfile: ./docker/rest/Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -19,8 +18,7 @@ services:
   grpc-app:
     build:
       context: .
-      dockerfile: Dockerfile
-    command: [ "./grpc-app" ]
+      dockerfile: ./docker/grpc/Dockerfile
     ports:
       - "3000:3000"
     depends_on:
