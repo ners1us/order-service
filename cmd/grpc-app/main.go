@@ -45,5 +45,4 @@ func main() {
 	defer cancel()
 
 	grpcServer.Stop(ctx)
-	log.Println("gRPC server stopped gracefully")
 }

@@ -67,6 +67,4 @@ func main() {
 	if err := httpServer.Stop(ctx); err != nil {
 		log.Printf("HTTP server shutdown error: %v", err)
 	}
-
-	log.Println("HTTP server stopped gracefully")
 }
