@@ -6,6 +6,7 @@ type Config struct {
 	DbUrl     string
 	JWTSecret string
 	RestPort  string
+	GrpcPort  string
 }
 
 func NewConfig() *Config {
@@ -13,6 +14,7 @@ func NewConfig() *Config {
 		DbUrl:     getEnv("DB_URL"),
 		JWTSecret: getEnv("JWT_SECRET"),
 		RestPort:  getEnv("REST_PORT"),
+		GrpcPort:  getEnv("GRPC_PORT"),
 	}
 }
 

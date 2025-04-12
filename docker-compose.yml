@@ -12,7 +12,8 @@ services:
     environment:
       - DB_URL=postgres://user:password@postgres:5432/order-service-db?sslmode=disable
       - JWT_SECRET=too_elaborate_jwt_secret
-      - PORT=8080
+      - REST_PORT=8080
+      - GRPC_PORT=3000
     networks:
       - app_network
 

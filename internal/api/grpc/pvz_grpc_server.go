@@ -19,8 +19,8 @@ type PVZGrpcServer struct {
 	listener  net.Listener
 }
 
-func NewServer(pvzRepo repositories.PVZRepository) (*PVZGrpcServer, error) {
-	lis, err := net.Listen("tcp", ":3000")
+func NewServer(pvzRepo repositories.PVZRepository, port string) (*PVZGrpcServer, error) {
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +38,7 @@ func NewServer(pvzRepo repositories.PVZRepository) (*PVZGrpcServer, error) {
 }
 
 func (s *PVZGrpcServer) Start() error {
-	log.Println("Starting gRPC server on port 3000")
+	log.Println("starting gRPC server...")
 	return s.server.Serve(s.listener)
 }
 

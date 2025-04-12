@@ -47,7 +47,7 @@ func main() {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 
-	grpcServer, err := grpc.NewServer(pvzRepo)
+	grpcServer, err := grpc.NewServer(pvzRepo, cfg.GrpcPort)
 	if err != nil {
 		log.Fatalf("failed to initialize gRPC server: %v", err)
 	}
@@ -78,7 +78,7 @@ func main() {
 	}
 
 	go func() {
-		log.Printf("starting HTTP server on port %s", cfg.RestPort)
+		log.Println("starting HTTP server...")
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("failed running HTTP server: %v", err)
 		}
