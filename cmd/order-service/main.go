@@ -42,15 +42,15 @@ func main() {
 	r.POST("/register", userHandler.Register)
 	r.POST("/login", userHandler.Login)
 
-	protectedApi := r.Group("/", middleware.AuthMiddleware(jwtService))
-	protectedApi.POST("/pvz", pvzHandler.CreatePVZ)
-	protectedApi.GET("/pvz", pvzHandler.GetPVZList)
-	protectedApi.POST("/pvz/:pvzId/close_last_reception", receptionHandler.CloseLastReception)
-	protectedApi.POST("/pvz/:pvzId/delete_last_product", productHandler.DeleteLastProduct)
-	protectedApi.POST("/receptions", receptionHandler.CreateReception)
-	protectedApi.POST("/products", productHandler.AddProduct)
+	secured := r.Group("/", middleware.AuthMiddleware(jwtService))
+	secured.POST("/pvz", pvzHandler.CreatePVZ)
+	secured.GET("/pvz", pvzHandler.GetPVZList)
+	secured.POST("/pvz/:pvzId/close_last_reception", receptionHandler.CloseLastReception)
+	secured.POST("/pvz/:pvzId/delete_last_product", productHandler.DeleteLastProduct)
+	secured.POST("/receptions", receptionHandler.CreateReception)
+	secured.POST("/products", productHandler.AddProduct)
 
 	if err := r.Run(":" + cfg.Port); err != nil {
-		log.Fatal("failed running merch store service: ", err)
+		log.Fatal("failed running order service: ", err)
 	}
 }
