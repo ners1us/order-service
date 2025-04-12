@@ -31,4 +31,4 @@ jobs:
         run: go test ./internal/services/... -v --cover
 
       - name: Run integration tests
-        run: go test ./internal/handlers/... -v
+        run: go test ./internal/api/rest/... -v
