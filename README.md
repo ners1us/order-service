@@ -7,6 +7,7 @@
 - Go
 - Gin
 - SQL
+- gRPC
 - Docker
 - PostgreSQL
 - Testcontainers
