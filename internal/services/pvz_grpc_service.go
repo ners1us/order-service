@@ -18,8 +18,8 @@ func NewPVZGrpcService(pvzRepository repositories.PVZRepository) *PVZGrpcService
 	}
 }
 
-func (s *PVZGrpcService) GetPVZList(_ context.Context, _ *proto.GetPVZListRequest) (*proto.GetPVZListResponse, error) {
-	pvzs, err := s.pvzRepository.GetAllPVZs()
+func (pgs *PVZGrpcService) GetPVZList(_ context.Context, _ *proto.GetPVZListRequest) (*proto.GetPVZListResponse, error) {
+	pvzs, err := pgs.pvzRepository.GetAllPVZs()
 	if err != nil {
 		return nil, err
 	}
