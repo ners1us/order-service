@@ -54,6 +54,6 @@ docker volume rm order-service_postgres-data
     - password: password
 
 ## Примечания
-- Работу endpoint'ов рекомендуется проверять в Postman.
 - Для gRPC сервера включена рефлексия.
-- Protobuf-файл можно просмотреть [тут](https://github.com/ners1us/order-service/blob/main/internal/api/grpc/proto/pvz.proto)
+- Работу endpoint'ов рекомендуется проверять в Postman.
+- Protobuf-файл для сущности **пункта выдачи заказов** можно просмотреть [тут](https://github.com/ners1us/order-service/blob/main/internal/api/grpc/proto/pvz.proto).
