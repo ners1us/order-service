@@ -31,9 +31,9 @@ docker compose down
 
 ## Просмотр логов приложения
 
-### main-app
+### rest-app
 ```bash
-docker logs order-service-main-app-1
+docker logs order-service-rest-app-1
 ```
 
 ### grpc-app

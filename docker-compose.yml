@@ -1,9 +1,9 @@
 services:
-  main-app:
+  rest-app:
     build:
       context: .
       dockerfile: Dockerfile
-    command: [ "./main-app" ]
+    command: [ "./rest-app" ]
     ports:
       - "8080:8080"
     depends_on:
