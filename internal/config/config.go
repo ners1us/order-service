@@ -5,14 +5,14 @@ import "os"
 type Config struct {
 	DbUrl     string
 	JWTSecret string
-	Port      string
+	RestPort  string
 }
 
 func NewConfig() *Config {
 	return &Config{
 		DbUrl:     getEnv("DB_URL"),
 		JWTSecret: getEnv("JWT_SECRET"),
-		Port:      getEnv("PORT"),
+		RestPort:  getEnv("REST_PORT"),
 	}
 }
 

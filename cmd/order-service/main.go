@@ -73,12 +73,12 @@ func main() {
 	secured.POST("/products", productHandler.AddProduct)
 
 	srv := &http.Server{
-		Addr:    ":" + cfg.Port,
+		Addr:    ":" + cfg.RestPort,
 		Handler: r,
 	}
 
 	go func() {
-		log.Printf("starting HTTP server on port %s", cfg.Port)
+		log.Printf("starting HTTP server on port %s", cfg.RestPort)
 		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("failed running HTTP server: %v", err)
 		}
