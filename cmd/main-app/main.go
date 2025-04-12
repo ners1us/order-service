@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"github.com/ners1us/order-service/internal/api/grpc"
 	"github.com/ners1us/order-service/internal/api/rest"
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
@@ -43,17 +42,6 @@ func main() {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 
-	grpcServer, err := grpc.NewServer(pvzRepo, cfg.GrpcPort)
-	if err != nil {
-		log.Fatalf("failed to initialize gRPC server: %v", err)
-	}
-
-	go func() {
-		if err := grpcServer.Start(); err != nil {
-			log.Fatalf("failed to start gRPC server: %v", err)
-		}
-	}()
-
 	httpServer := rest.NewHTTPServer(
 		cfg.RestPort,
 		userHandler,
@@ -71,16 +59,14 @@ func main() {
 	}()
 
 	sig := <-sigCh
-	log.Printf("server shutting down. received signal: %v", sig)
+	log.Printf("HTTP server shutting down. received signal: %v\n", sig)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	grpcServer.Stop(ctx)
 
 	if err := httpServer.Stop(ctx); err != nil {
 		log.Printf("HTTP server shutdown error: %v", err)
 	}
 
-	log.Println("servers stopped gracefully")
+	log.Println("HTTP server stopped gracefully")
 }
