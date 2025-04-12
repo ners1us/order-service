@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.12.4
-// source: internal/api/grpc/pvz.proto
+// source: internal/api/grpc/proto/pvz.proto
 
 package proto
 
@@ -117,5 +117,5 @@ var PVZService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "internal/api/grpc/pvz.proto",
+	Metadata: "internal/api/grpc/proto/pvz.proto",
 }

@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v3.12.4
-// source: internal/api/grpc/pvz.proto
+// source: internal/api/grpc/proto/pvz.proto
 
 package proto
 
@@ -52,11 +52,11 @@ func (x ReceptionStatus) String() string {
 }
 
 func (ReceptionStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_internal_api_grpc_pvz_proto_enumTypes[0].Descriptor()
+	return file_internal_api_grpc_proto_pvz_proto_enumTypes[0].Descriptor()
 }
 
 func (ReceptionStatus) Type() protoreflect.EnumType {
-	return &file_internal_api_grpc_pvz_proto_enumTypes[0]
+	return &file_internal_api_grpc_proto_pvz_proto_enumTypes[0]
 }
 
 func (x ReceptionStatus) Number() protoreflect.EnumNumber {
@@ -65,7 +65,7 @@ func (x ReceptionStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ReceptionStatus.Descriptor instead.
 func (ReceptionStatus) EnumDescriptor() ([]byte, []int) {
-	return file_internal_api_grpc_pvz_proto_rawDescGZIP(), []int{0}
+	return file_internal_api_grpc_proto_pvz_proto_rawDescGZIP(), []int{0}
 }
 
 type PVZ struct {
@@ -79,7 +79,7 @@ type PVZ struct {
 
 func (x *PVZ) Reset() {
 	*x = PVZ{}
-	mi := &file_internal_api_grpc_pvz_proto_msgTypes[0]
+	mi := &file_internal_api_grpc_proto_pvz_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +91,7 @@ func (x *PVZ) String() string {
 func (*PVZ) ProtoMessage() {}
 
 func (x *PVZ) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_api_grpc_pvz_proto_msgTypes[0]
+	mi := &file_internal_api_grpc_proto_pvz_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +104,7 @@ func (x *PVZ) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PVZ.ProtoReflect.Descriptor instead.
 func (*PVZ) Descriptor() ([]byte, []int) {
-	return file_internal_api_grpc_pvz_proto_rawDescGZIP(), []int{0}
+	return file_internal_api_grpc_proto_pvz_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *PVZ) GetId() string {
@@ -136,7 +136,7 @@ type GetPVZListRequest struct {
 
 func (x *GetPVZListRequest) Reset() {
 	*x = GetPVZListRequest{}
-	mi := &file_internal_api_grpc_pvz_proto_msgTypes[1]
+	mi := &file_internal_api_grpc_proto_pvz_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -148,7 +148,7 @@ func (x *GetPVZListRequest) String() string {
 func (*GetPVZListRequest) ProtoMessage() {}
 
 func (x *GetPVZListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_api_grpc_pvz_proto_msgTypes[1]
+	mi := &file_internal_api_grpc_proto_pvz_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -161,7 +161,7 @@ func (x *GetPVZListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPVZListRequest.ProtoReflect.Descriptor instead.
 func (*GetPVZListRequest) Descriptor() ([]byte, []int) {
-	return file_internal_api_grpc_pvz_proto_rawDescGZIP(), []int{1}
+	return file_internal_api_grpc_proto_pvz_proto_rawDescGZIP(), []int{1}
 }
 
 type GetPVZListResponse struct {
@@ -173,7 +173,7 @@ type GetPVZListResponse struct {
 
 func (x *GetPVZListResponse) Reset() {
 	*x = GetPVZListResponse{}
-	mi := &file_internal_api_grpc_pvz_proto_msgTypes[2]
+	mi := &file_internal_api_grpc_proto_pvz_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -185,7 +185,7 @@ func (x *GetPVZListResponse) String() string {
 func (*GetPVZListResponse) ProtoMessage() {}
 
 func (x *GetPVZListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_internal_api_grpc_pvz_proto_msgTypes[2]
+	mi := &file_internal_api_grpc_proto_pvz_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -198,7 +198,7 @@ func (x *GetPVZListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPVZListResponse.ProtoReflect.Descriptor instead.
 func (*GetPVZListResponse) Descriptor() ([]byte, []int) {
-	return file_internal_api_grpc_pvz_proto_rawDescGZIP(), []int{2}
+	return file_internal_api_grpc_proto_pvz_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetPVZListResponse) GetPvzs() []*PVZ {
@@ -208,11 +208,11 @@ func (x *GetPVZListResponse) GetPvzs() []*PVZ {
 	return nil
 }
 
-var File_internal_api_grpc_pvz_proto protoreflect.FileDescriptor
+var File_internal_api_grpc_proto_pvz_proto protoreflect.FileDescriptor
 
-const file_internal_api_grpc_pvz_proto_rawDesc = "" +
+const file_internal_api_grpc_proto_pvz_proto_rawDesc = "" +
 	"\n" +
-	"\x1binternal/api/grpc/pvz.proto\x12\x06pvz.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"r\n" +
+	"!internal/api/grpc/proto/pvz.proto\x12\x06pvz.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"r\n" +
 	"\x03PVZ\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12G\n" +
 	"\x11registration_date\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x10registrationDate\x12\x12\n" +
@@ -229,27 +229,27 @@ const file_internal_api_grpc_pvz_proto_rawDesc = "" +
 	"GetPVZList\x12\x19.pvz.v1.GetPVZListRequest\x1a\x1a.pvz.v1.GetPVZListResponseB<Z:github.com/ners1us/order-service/pkg/generated/proto;protob\x06proto3"
 
 var (
-	file_internal_api_grpc_pvz_proto_rawDescOnce sync.Once
-	file_internal_api_grpc_pvz_proto_rawDescData []byte
+	file_internal_api_grpc_proto_pvz_proto_rawDescOnce sync.Once
+	file_internal_api_grpc_proto_pvz_proto_rawDescData []byte
 )
 
-func file_internal_api_grpc_pvz_proto_rawDescGZIP() []byte {
-	file_internal_api_grpc_pvz_proto_rawDescOnce.Do(func() {
-		file_internal_api_grpc_pvz_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_internal_api_grpc_pvz_proto_rawDesc), len(file_internal_api_grpc_pvz_proto_rawDesc)))
+func file_internal_api_grpc_proto_pvz_proto_rawDescGZIP() []byte {
+	file_internal_api_grpc_proto_pvz_proto_rawDescOnce.Do(func() {
+		file_internal_api_grpc_proto_pvz_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_internal_api_grpc_proto_pvz_proto_rawDesc), len(file_internal_api_grpc_proto_pvz_proto_rawDesc)))
 	})
-	return file_internal_api_grpc_pvz_proto_rawDescData
+	return file_internal_api_grpc_proto_pvz_proto_rawDescData
 }
 
-var file_internal_api_grpc_pvz_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_internal_api_grpc_pvz_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_internal_api_grpc_pvz_proto_goTypes = []any{
+var file_internal_api_grpc_proto_pvz_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_internal_api_grpc_proto_pvz_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_internal_api_grpc_proto_pvz_proto_goTypes = []any{
 	(ReceptionStatus)(0),        // 0: pvz.v1.ReceptionStatus
 	(*PVZ)(nil),                 // 1: pvz.v1.PVZ
 	(*GetPVZListRequest)(nil),   // 2: pvz.v1.GetPVZListRequest
 	(*GetPVZListResponse)(nil),  // 3: pvz.v1.GetPVZListResponse
 	(*timestamp.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
-var file_internal_api_grpc_pvz_proto_depIdxs = []int32{
+var file_internal_api_grpc_proto_pvz_proto_depIdxs = []int32{
 	4, // 0: pvz.v1.PVZ.registration_date:type_name -> google.protobuf.Timestamp
 	1, // 1: pvz.v1.GetPVZListResponse.pvzs:type_name -> pvz.v1.PVZ
 	2, // 2: pvz.v1.PVZService.GetPVZList:input_type -> pvz.v1.GetPVZListRequest
@@ -261,27 +261,27 @@ var file_internal_api_grpc_pvz_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_internal_api_grpc_pvz_proto_init() }
-func file_internal_api_grpc_pvz_proto_init() {
-	if File_internal_api_grpc_pvz_proto != nil {
+func init() { file_internal_api_grpc_proto_pvz_proto_init() }
+func file_internal_api_grpc_proto_pvz_proto_init() {
+	if File_internal_api_grpc_proto_pvz_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_internal_api_grpc_pvz_proto_rawDesc), len(file_internal_api_grpc_pvz_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_internal_api_grpc_proto_pvz_proto_rawDesc), len(file_internal_api_grpc_proto_pvz_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_internal_api_grpc_pvz_proto_goTypes,
-		DependencyIndexes: file_internal_api_grpc_pvz_proto_depIdxs,
-		EnumInfos:         file_internal_api_grpc_pvz_proto_enumTypes,
-		MessageInfos:      file_internal_api_grpc_pvz_proto_msgTypes,
+		GoTypes:           file_internal_api_grpc_proto_pvz_proto_goTypes,
+		DependencyIndexes: file_internal_api_grpc_proto_pvz_proto_depIdxs,
+		EnumInfos:         file_internal_api_grpc_proto_pvz_proto_enumTypes,
+		MessageInfos:      file_internal_api_grpc_proto_pvz_proto_msgTypes,
 	}.Build()
-	File_internal_api_grpc_pvz_proto = out.File
-	file_internal_api_grpc_pvz_proto_goTypes = nil
-	file_internal_api_grpc_pvz_proto_depIdxs = nil
+	File_internal_api_grpc_proto_pvz_proto = out.File
+	file_internal_api_grpc_proto_pvz_proto_goTypes = nil
+	file_internal_api_grpc_proto_pvz_proto_depIdxs = nil
 }
