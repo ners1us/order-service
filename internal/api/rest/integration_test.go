@@ -95,7 +95,7 @@ func applyMigrations(connStr string) error {
 		return fmt.Errorf("failed to create postgres driver: %w", err)
 	}
 
-	migrationsPath, err := filepath.Abs("../../migrations")
+	migrationsPath, err := filepath.Abs("../../../migrations")
 	if err != nil {
 		return fmt.Errorf("failed to get migrations path: %w", err)
 	}
