@@ -12,6 +12,11 @@
 - PostgreSQL
 - Testcontainers
 
+## Генерация кода из protobuf-файла
+```bash
+make generate-proto
+```
+
 ## Запуск приложения
 
 ```bash
@@ -26,8 +31,14 @@ docker compose down
 
 ## Просмотр логов приложения
 
+### main-app
 ```bash
-docker logs order-service-app-1
+docker logs order-service-main-app-1
+```
+
+### grpc-app
+```bash
+docker logs order-service-grpc-app-1
 ```
 
 ## Очистка базы данных
@@ -41,3 +52,8 @@ docker volume rm order-service_postgres-data
 - PostgreSQL, порт - 5432:
     - username: user
     - password: password
+
+## Примечания
+- Работу endpoint'ов рекомендуется проверять в Postman.
+- Для gRPC сервера включена рефлексия.
+- Protobuf-файл можно просмотреть [тут](https://github.com/ners1us/order-service/blob/main/internal/api/grpc/proto/pvz.proto)
