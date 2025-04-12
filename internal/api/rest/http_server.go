@@ -65,16 +65,25 @@ func (hs *HTTPServer) Start() error {
 	return hs.server.ListenAndServe()
 }
 
-func (hs *HTTPServer) Stop(ctx context.Context) error {
+func (hs *HTTPServer) Stop(ctx context.Context) {
 	shutdownCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	err := hs.server.Shutdown(shutdownCtx)
-	if err != nil {
-		log.Printf("HTTP server shutdown error: %v", err)
-		return err
-	}
+	errCh := make(chan error, 1)
 
-	log.Println("HTTP server stopped gracefully")
-	return nil
+	go func() {
+		err := hs.server.Shutdown(shutdownCtx)
+		errCh <- err
+	}()
+
+	select {
+	case err := <-errCh:
+		if err != nil {
+			log.Printf("HTTP server shutdown error: %v\n", err)
+		} else {
+			log.Println("HTTP server stopped gracefully")
+		}
+	case <-shutdownCtx.Done():
+		log.Println("HTTP server forced to stop")
+	}
 }

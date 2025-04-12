@@ -64,7 +64,5 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	if err := httpServer.Stop(ctx); err != nil {
-		log.Printf("HTTP server shutdown error: %v", err)
-	}
+	httpServer.Stop(ctx)
 }
