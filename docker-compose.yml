@@ -1,11 +1,11 @@
 services:
-  app:
+  main-app:
     build:
       context: .
       dockerfile: Dockerfile
+    command: [ "./main-app" ]
     ports:
       - "8080:8080"
-      - "3000:3000"
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -13,9 +13,24 @@ services:
       - DB_URL=postgres://user:password@postgres:5432/order-service-db?sslmode=disable
       - JWT_SECRET=too_elaborate_jwt_secret
       - REST_PORT=8080
+    networks:
+      - order-service-network
+
+  grpc-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: [ "./grpc-app" ]
+    ports:
+      - "3000:3000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      - DB_URL=postgres://user:password@postgres:5432/order-service-db?sslmode=disable
       - GRPC_PORT=3000
     networks:
-      - app_network
+      - order-service-network
 
   migrate:
     image: migrate/migrate:latest
@@ -30,7 +45,7 @@ services:
       "up"
     ]
     networks:
-      - app_network
+      - order-service-network
 
   postgres:
     image: postgres:latest
@@ -48,10 +63,10 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - app_network
+      - order-service-network
 
 networks:
-  app_network:
+  order-service-network:
     driver: bridge
 
 volumes:
