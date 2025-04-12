@@ -1,14 +1,22 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/ners1us/order-service/internal/api/grpc"
+	"github.com/ners1us/order-service/internal/api/rest"
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
-	"github.com/ners1us/order-service/internal/handlers"
 	"github.com/ners1us/order-service/internal/middleware"
 	"github.com/ners1us/order-service/internal/repositories"
 	"github.com/ners1us/order-service/internal/services"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 func main() {
@@ -31,10 +39,24 @@ func main() {
 	receptionService := services.NewReceptionService(receptionRepo, pvzRepo)
 	productService := services.NewProductService(receptionRepo, productRepo)
 
-	userHandler := handlers.NewUserHandler(userService)
-	pvzHandler := handlers.NewPVZHandler(pvzService)
-	receptionHandler := handlers.NewReceptionHandler(receptionService)
-	productHandler := handlers.NewProductHandler(productService)
+	userHandler := rest.NewUserHandler(userService)
+	pvzHandler := rest.NewPVZHandler(pvzService)
+	receptionHandler := rest.NewReceptionHandler(receptionService)
+	productHandler := rest.NewProductHandler(productService)
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
+
+	grpcServer, err := grpc.NewServer(pvzRepo)
+	if err != nil {
+		log.Fatalf("failed to initialize gRPC server: %v", err)
+	}
+
+	go func() {
+		if err := grpcServer.Start(); err != nil {
+			log.Fatalf("failed to start gRPC server: %v", err)
+		}
+	}()
 
 	r := gin.Default()
 
@@ -50,7 +72,29 @@ func main() {
 	secured.POST("/receptions", receptionHandler.CreateReception)
 	secured.POST("/products", productHandler.AddProduct)
 
-	if err := r.Run(":" + cfg.Port); err != nil {
-		log.Fatal("failed running order service: ", err)
+	srv := &http.Server{
+		Addr:    ":" + cfg.Port,
+		Handler: r,
 	}
+
+	go func() {
+		log.Printf("starting HTTP server on port %s", cfg.Port)
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("failed running HTTP server: %v", err)
+		}
+	}()
+
+	sig := <-sigCh
+	log.Printf("server shutting down. received signal: %v", sig)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	grpcServer.Stop(ctx)
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Printf("HTTP server shutdown error: %v", err)
+	}
+
+	log.Println("servers gracefully stopped")
 }
