@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/metrics"
 	"github.com/ners1us/order-service/internal/models"
 	"github.com/ners1us/order-service/internal/services"
 	"net/http"
@@ -40,6 +41,9 @@ func (ph *pvzHandlerImpl) CreatePVZ(c *gin.Context) {
 		c.JSON(status, gin.H{"error": err.Error()})
 		return
 	}
+
+	metrics.PVZCreated.Inc()
+
 	c.JSON(http.StatusCreated, createdPVZ)
 }
 

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/metrics"
 	"github.com/ners1us/order-service/internal/services"
 	"net/http"
 )
@@ -39,6 +40,9 @@ func (rh *receptionHandlerImpl) CreateReception(c *gin.Context) {
 		c.JSON(status, gin.H{"error": err.Error()})
 		return
 	}
+
+	metrics.ReceptionsCreated.Inc()
+
 	c.JSON(http.StatusCreated, reception)
 }
 
