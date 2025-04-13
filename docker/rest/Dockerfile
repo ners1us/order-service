@@ -7,7 +7,7 @@ WORKDIR /app/cmd/rest-app
 RUN CGO_ENABLED=0 go build -o rest-app .
 
 FROM alpine:latest
-EXPOSE 8080
+EXPOSE 8080 9000
 WORKDIR /root
 COPY --from=build /app/cmd/rest-app/rest-app .
 CMD ["./rest-app"]
