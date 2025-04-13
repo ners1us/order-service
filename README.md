@@ -10,6 +10,7 @@
 - gRPC
 - Docker
 - PostgreSQL
+- Prometheus
 - Testcontainers
 
 ## Сущности
