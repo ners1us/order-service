@@ -6,6 +6,7 @@ import (
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
 	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/servers"
 	"github.com/ners1us/order-service/internal/services"
 	"log"
 	"os"
@@ -42,7 +43,7 @@ func main() {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 
-	httpServer := rest.NewHTTPServer(
+	httpServer := servers.NewHTTPServer(
 		cfg.RestPort,
 		userHandler,
 		pvzHandler,
