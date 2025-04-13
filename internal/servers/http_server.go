@@ -32,6 +32,9 @@ func NewHTTPServer(
 ) BackendServer {
 	r := gin.Default()
 
+	p := ginprometheus.NewPrometheus("gin")
+	p.Use(r)
+
 	srv := &http.Server{
 		Addr:    ":" + port,
 		Handler: r,
