@@ -1,33 +1,35 @@
-package rest
+package servers
 
 import (
 	"context"
 	"github.com/gin-gonic/gin"
+	"github.com/ners1us/order-service/internal/api/rest"
 	"github.com/ners1us/order-service/internal/middleware"
 	"github.com/ners1us/order-service/internal/services"
+	ginprometheus "github.com/zsais/go-gin-prometheus"
 	"log"
 	"net/http"
 	"time"
 )
 
-type HTTPServer struct {
+type httpServer struct {
 	server           *http.Server
 	engine           *gin.Engine
-	userHandler      UserHandler
-	pvzHandler       PVZHandler
-	receptionHandler ReceptionHandler
-	productHandler   ProductHandler
+	userHandler      rest.UserHandler
+	pvzHandler       rest.PVZHandler
+	receptionHandler rest.ReceptionHandler
+	productHandler   rest.ProductHandler
 	jwtService       services.JWTService
 }
 
 func NewHTTPServer(
 	port string,
-	userHandler UserHandler,
-	pvzHandler PVZHandler,
-	receptionHandler ReceptionHandler,
-	productHandler ProductHandler,
+	userHandler rest.UserHandler,
+	pvzHandler rest.PVZHandler,
+	receptionHandler rest.ReceptionHandler,
+	productHandler rest.ProductHandler,
 	jwtService services.JWTService,
-) *HTTPServer {
+) BackendServer {
 	r := gin.Default()
 
 	srv := &http.Server{
@@ -35,7 +37,7 @@ func NewHTTPServer(
 		Handler: r,
 	}
 
-	return &HTTPServer{
+	return &httpServer{
 		server:           srv,
 		engine:           r,
 		userHandler:      userHandler,
@@ -46,7 +48,7 @@ func NewHTTPServer(
 	}
 }
 
-func (hs *HTTPServer) ConfigureRoutes() {
+func (hs *httpServer) ConfigureRoutes() {
 	hs.engine.POST("/dummyLogin", hs.userHandler.DummyLogin)
 	hs.engine.POST("/register", hs.userHandler.Register)
 	hs.engine.POST("/login", hs.userHandler.Login)
@@ -60,12 +62,12 @@ func (hs *HTTPServer) ConfigureRoutes() {
 	secured.POST("/products", hs.productHandler.AddProduct)
 }
 
-func (hs *HTTPServer) Start() error {
+func (hs *httpServer) Start() error {
 	log.Println("starting HTTP server...")
 	return hs.server.ListenAndServe()
 }
 
-func (hs *HTTPServer) Stop(ctx context.Context) {
+func (hs *httpServer) Stop(ctx context.Context) {
 	shutdownCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 

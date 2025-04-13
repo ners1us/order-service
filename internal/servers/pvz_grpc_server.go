@@ -1,4 +1,4 @@
-package grpc
+package servers
 
 import (
 	"context"
@@ -13,36 +13,43 @@ import (
 	"github.com/ners1us/order-service/pkg/generated/proto"
 )
 
-type PVZGrpcServer struct {
+type pvzGrpcServer struct {
 	server    *grpc.Server
 	pvzServer *services.PVZGrpcService
 	listener  net.Listener
+	pvzRepo   repositories.PVZRepository
 }
 
-func NewServer(pvzRepo repositories.PVZRepository, port string) (*PVZGrpcServer, error) {
+func NewServer(
+	pvzRepo repositories.PVZRepository,
+	port string,
+) (BackendServer, error) {
 	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		return nil, err
 	}
 
 	grpcServer := grpc.NewServer()
-	reflection.Register(grpcServer)
-	pvzServer := services.NewPVZGrpcService(pvzRepo)
-	proto.RegisterPVZServiceServer(grpcServer, pvzServer)
 
-	return &PVZGrpcServer{
-		server:    grpcServer,
-		pvzServer: pvzServer,
-		listener:  lis,
+	return &pvzGrpcServer{
+		server:   grpcServer,
+		pvzRepo:  pvzRepo,
+		listener: lis,
 	}, nil
 }
 
-func (pgs *PVZGrpcServer) Start() error {
+func (pgs *pvzGrpcServer) ConfigureRoutes() {
+	reflection.Register(pgs.server)
+	pgs.pvzServer = services.NewPVZGrpcService(pgs.pvzRepo)
+	proto.RegisterPVZServiceServer(pgs.server, pgs.pvzServer)
+}
+
+func (pgs *pvzGrpcServer) Start() error {
 	log.Println("starting gRPC server...")
 	return pgs.server.Serve(pgs.listener)
 }
 
-func (pgs *PVZGrpcServer) Stop(ctx context.Context) {
+func (pgs *pvzGrpcServer) Stop(ctx context.Context) {
 	shutdownCtx, cancel := context.WithTimeout(ctx, time.Second*5)
 	defer cancel()
 
