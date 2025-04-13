@@ -52,6 +52,15 @@ func main() {
 	)
 	httpServer.ConfigureRoutes()
 
+	metricsServer := servers.NewMetricsServer(cfg.PrometheusPort)
+	metricsServer.ConfigureRoutes()
+
+	go func() {
+		if err := metricsServer.Start(); err != nil {
+			log.Fatalf("failed to start metrics server: %v", err)
+		}
+	}()
+
 	go func() {
 		if err := httpServer.Start(); err != nil {
 			log.Fatalf("failed to start HTTP server: %v", err)
@@ -59,10 +68,11 @@ func main() {
 	}()
 
 	sig := <-sigCh
-	log.Printf("HTTP server shutting down. received signal: %v\n", sig)
+	log.Printf("shutting down. received signal: %v\n", sig)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
+	metricsServer.Stop(ctx)
 	httpServer.Stop(ctx)
 }
