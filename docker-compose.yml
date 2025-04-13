@@ -15,7 +15,7 @@ services:
       - REST_PORT=8080
       - PROMETHEUS_PORT=9000
     networks:
-      - order-service-network
+      - rest-network
 
   grpc-app:
     build:
@@ -30,7 +30,7 @@ services:
       - DB_URL=postgres://user:password@postgres:5432/order-service-db?sslmode=disable
       - GRPC_PORT=3000
     networks:
-      - order-service-network
+      - grpc-network
 
   migrate:
     image: migrate/migrate:latest
@@ -45,7 +45,8 @@ services:
       "up"
     ]
     networks:
-      - order-service-network
+      - rest-network
+      - grpc-network
 
   postgres:
     image: postgres:latest
@@ -63,10 +64,13 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - order-service-network
+      - rest-network
+      - grpc-network
 
 networks:
-  order-service-network:
+  rest-network:
+    driver: bridge
+  grpc-network:
     driver: bridge
 
 volumes:
