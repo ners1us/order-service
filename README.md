@@ -125,6 +125,7 @@ docker volume rm order-service_postgres-data
 ## Данные для авторизации в БД
 
 - PostgreSQL, порт - 5432:
+    - name: order-service-db
     - username: user
     - password: password
 
