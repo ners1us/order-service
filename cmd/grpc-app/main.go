@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"github.com/ners1us/order-service/internal/api/grpc"
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
 	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/servers"
 	"log"
 	"os"
 	"os/signal"
@@ -24,10 +24,11 @@ func main() {
 
 	pvzRepo := repositories.NewPVZRepository(db)
 
-	grpcServer, err := grpc.NewServer(pvzRepo, cfg.GrpcPort)
+	grpcServer, err := servers.NewServer(pvzRepo, cfg.GrpcPort)
 	if err != nil {
 		log.Fatalf("failed to initialize gRPC server: %v", err)
 	}
+	grpcServer.ConfigureRoutes()
 
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
