@@ -4,7 +4,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 WORKDIR /app/cmd/rest-app
-RUN CGO_ENABLED=0 go build -o rest-app .
+RUN CGO_ENABLED=0 GOOS=linux go build -o rest-app .
 
 FROM alpine:latest
 EXPOSE 8080 9000

@@ -4,7 +4,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 WORKDIR /app/cmd/grpc-app
-RUN CGO_ENABLED=0 go build -o grpc-app .
+RUN CGO_ENABLED=0 GOOS=linux go build -o grpc-app .
 
 FROM alpine:latest
 EXPOSE 3000
