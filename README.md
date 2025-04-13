@@ -85,42 +85,43 @@ HTTP-сервер для управления ПВЗ, приемками, тов
 
 - **/metrics** (GET) — метрики Prometheus: количество созданных ПВЗ, приемок, добавленных товаров, а также другие метрики.
 
-## Генерация кода из protobuf-файла
+## Команды
+
+### Запуск контейнеров
 
 ```bash
-make generate-proto
+make run
 ```
 
-## Запуск контейнеров
+### Остановка контейнеров
 
 ```bash
-docker compose up -d --build
+make stop
 ```
 
-## Остановка контейнеров
+### Просмотр логов
+
+#### rest-app
 
 ```bash
-docker compose down
+make rest-logs
 ```
 
-## Просмотр логов
-
-### rest-app
+#### grpc-app
 
 ```bash
-docker logs order-service-rest-app-1
+make grpc-logs
 ```
 
-### grpc-app
+### Очистка базы данных
 
 ```bash
-docker logs order-service-grpc-app-1
+make db-clean
 ```
 
-## Очистка базы данных
-
+### Просмотреть список всех команд
 ```bash
-docker volume rm order-service_postgres-data
+make help
 ```
 
 ## Данные для авторизации в БД
