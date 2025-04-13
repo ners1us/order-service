@@ -14,10 +14,10 @@ import (
 )
 
 type pvzGrpcServer struct {
-	server    *grpc.Server
-	pvzServer *services.PVZGrpcService
-	listener  net.Listener
-	pvzRepo   repositories.PVZRepository
+	server         *grpc.Server
+	pvzGrpcService *services.PVZGrpcService
+	listener       net.Listener
+	pvzRepo        repositories.PVZRepository
 }
 
 func NewServer(
@@ -40,8 +40,8 @@ func NewServer(
 
 func (pgs *pvzGrpcServer) ConfigureRoutes() {
 	reflection.Register(pgs.server)
-	pgs.pvzServer = services.NewPVZGrpcService(pgs.pvzRepo)
-	proto.RegisterPVZServiceServer(pgs.server, pgs.pvzServer)
+	pgs.pvzGrpcService = services.NewPVZGrpcService(pgs.pvzRepo)
+	proto.RegisterPVZServiceServer(pgs.server, pgs.pvzGrpcService)
 }
 
 func (pgs *pvzGrpcServer) Start() error {
