@@ -44,10 +44,10 @@ logs:
 	@docker logs order-service-postgres-1 --tail 50
 
 unit-test:
-	go test ./internal/services -v --cover
+	@go test ./internal/services -v --cover
 
 integration-test:
-	go test ./internal/api/rest/... -v
+	@go test ./internal/api/rest/... -v
 
 test: unit-test integration-test
 	@echo "All tests completed"
