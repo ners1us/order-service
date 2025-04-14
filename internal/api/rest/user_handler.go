@@ -3,7 +3,7 @@ package rest
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 )
 
@@ -14,10 +14,10 @@ type UserHandler interface {
 }
 
 type userHandlerImpl struct {
-	userService services.UserService
+	userService service.UserService
 }
 
-func NewUserHandler(userService services.UserService) UserHandler {
+func NewUserHandler(userService service.UserService) UserHandler {
 	return &userHandlerImpl{userService}
 }
 

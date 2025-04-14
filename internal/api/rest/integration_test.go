@@ -11,7 +11,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/models"
 	"github.com/ners1us/order-service/internal/repositories"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"github.com/stretchr/testify/assert"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
@@ -122,9 +122,9 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 	receptionRepo := repositories.NewReceptionRepository(db)
 	productRepo := repositories.NewProductRepository(db)
 
-	pvzService := services.NewPVZService(pvzRepo, receptionRepo, productRepo)
-	receptionService := services.NewReceptionService(receptionRepo, pvzRepo)
-	productService := services.NewProductService(receptionRepo, productRepo)
+	pvzService := service.NewPVZService(pvzRepo, receptionRepo, productRepo)
+	receptionService := service.NewReceptionService(receptionRepo, pvzRepo)
+	productService := service.NewProductService(receptionRepo, productRepo)
 
 	moderatorRole := "moderator"
 	employeeRole := "employee"

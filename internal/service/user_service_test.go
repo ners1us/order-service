@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"github.com/ners1us/order-service/internal/enums"

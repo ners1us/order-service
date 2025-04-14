@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/api/rest"
 	"github.com/ners1us/order-service/internal/middleware"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	ginprometheus "github.com/zsais/go-gin-prometheus"
 	"log"
 	"net/http"
@@ -19,7 +19,7 @@ type httpServer struct {
 	pvzHandler       rest.PVZHandler
 	receptionHandler rest.ReceptionHandler
 	productHandler   rest.ProductHandler
-	jwtService       services.JWTService
+	jwtService       service.JWTService
 }
 
 func NewHTTPServer(
@@ -28,7 +28,7 @@ func NewHTTPServer(
 	pvzHandler rest.PVZHandler,
 	receptionHandler rest.ReceptionHandler,
 	productHandler rest.ProductHandler,
-	jwtService services.JWTService,
+	jwtService service.JWTService,
 ) BackendServer {
 	r := gin.Default()
 

@@ -3,7 +3,7 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
-	auth "github.com/ners1us/order-service/internal/services"
+	auth "github.com/ners1us/order-service/internal/service"
 	"net/http"
 	"strings"
 )

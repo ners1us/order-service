@@ -3,7 +3,7 @@ package servers
 import (
 	"context"
 	"github.com/ners1us/order-service/internal/loggers"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -16,7 +16,7 @@ import (
 
 type pvzGrpcServer struct {
 	server         *grpc.Server
-	pvzGrpcService *services.PVZGrpcService
+	pvzGrpcService *service.PVZGrpcService
 	listener       net.Listener
 	pvzRepo        repositories.PVZRepository
 }
@@ -41,7 +41,7 @@ func NewServer(
 
 func (pgs *pvzGrpcServer) ConfigureRoutes() {
 	reflection.Register(pgs.server)
-	pgs.pvzGrpcService = services.NewPVZGrpcService(pgs.pvzRepo)
+	pgs.pvzGrpcService = service.NewPVZGrpcService(pgs.pvzRepo)
 	proto.RegisterPVZServiceServer(pgs.server, pgs.pvzGrpcService)
 }
 

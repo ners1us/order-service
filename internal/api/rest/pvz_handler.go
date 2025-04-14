@@ -6,7 +6,7 @@ import (
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/metrics"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 	"strconv"
 	"time"
@@ -18,10 +18,10 @@ type PVZHandler interface {
 }
 
 type pvzHandlerImpl struct {
-	pvzService services.PVZService
+	pvzService service.PVZService
 }
 
-func NewPVZHandler(pvzService services.PVZService) PVZHandler {
+func NewPVZHandler(pvzService service.PVZService) PVZHandler {
 	return &pvzHandlerImpl{pvzService}
 }
 

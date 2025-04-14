@@ -6,7 +6,7 @@ import (
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/metrics"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 )
 
@@ -16,10 +16,10 @@ type ProductHandler interface {
 }
 
 type productHandlerImpl struct {
-	productService services.ProductService
+	productService service.ProductService
 }
 
-func NewProductHandler(productService services.ProductService) ProductHandler {
+func NewProductHandler(productService service.ProductService) ProductHandler {
 	return &productHandlerImpl{productService}
 }
 

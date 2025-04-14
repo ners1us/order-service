@@ -46,7 +46,7 @@ logs:
 	docker logs order-service-postgres-1 --tail 50
 
 unit-test:
-	go test ./internal/services -v --cover
+	go test ./internal/service -v --cover
 
 integration-test:
 	go test ./internal/api/rest/... -v

@@ -7,7 +7,7 @@ import (
 	"github.com/ners1us/order-service/internal/database"
 	"github.com/ners1us/order-service/internal/repositories"
 	"github.com/ners1us/order-service/internal/servers"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"log"
 	"os"
 	"os/signal"
@@ -29,11 +29,11 @@ func main() {
 	receptionRepo := repositories.NewReceptionRepository(db)
 	productRepo := repositories.NewProductRepository(db)
 
-	jwtService := services.NewJWTService(cfg.JWTSecret)
-	userService := services.NewUserService(userRepo, jwtService)
-	pvzService := services.NewPVZService(pvzRepo, receptionRepo, productRepo)
-	receptionService := services.NewReceptionService(receptionRepo, pvzRepo)
-	productService := services.NewProductService(receptionRepo, productRepo)
+	jwtService := service.NewJWTService(cfg.JWTSecret)
+	userService := service.NewUserService(userRepo, jwtService)
+	pvzService := service.NewPVZService(pvzRepo, receptionRepo, productRepo)
+	receptionService := service.NewReceptionService(receptionRepo, pvzRepo)
+	productService := service.NewProductService(receptionRepo, productRepo)
 
 	userHandler := rest.NewUserHandler(userService)
 	pvzHandler := rest.NewPVZHandler(pvzService)

@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/metrics"
-	"github.com/ners1us/order-service/internal/services"
+	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 )
 
@@ -15,10 +15,10 @@ type ReceptionHandler interface {
 }
 
 type receptionHandlerImpl struct {
-	receptionService services.ReceptionService
+	receptionService service.ReceptionService
 }
 
-func NewReceptionHandler(receptionService services.ReceptionService) ReceptionHandler {
+func NewReceptionHandler(receptionService service.ReceptionService) ReceptionHandler {
 	return &receptionHandlerImpl{receptionService}
 }
 
