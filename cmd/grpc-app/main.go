@@ -5,7 +5,7 @@ import (
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
 	"github.com/ners1us/order-service/internal/repositories"
-	"github.com/ners1us/order-service/internal/servers"
+	"github.com/ners1us/order-service/internal/server"
 	"log"
 	"os"
 	"os/signal"
@@ -24,7 +24,7 @@ func main() {
 
 	pvzRepo := repositories.NewPVZRepository(db)
 
-	grpcServer, err := servers.NewServer(pvzRepo, cfg.GrpcPort)
+	grpcServer, err := server.NewServer(pvzRepo, cfg.GrpcPort)
 	if err != nil {
 		log.Fatalf("failed to initialize gRPC server: %v", err)
 	}

@@ -6,7 +6,7 @@ import (
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
 	"github.com/ners1us/order-service/internal/repositories"
-	"github.com/ners1us/order-service/internal/servers"
+	"github.com/ners1us/order-service/internal/server"
 	"github.com/ners1us/order-service/internal/service"
 	"log"
 	"os"
@@ -43,7 +43,7 @@ func main() {
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM)
 
-	httpServer := servers.NewHTTPServer(
+	httpServer := server.NewHTTPServer(
 		cfg.RestPort,
 		userHandler,
 		pvzHandler,
@@ -53,7 +53,7 @@ func main() {
 	)
 	httpServer.ConfigureRoutes()
 
-	metricsServer := servers.NewMetricsServer(cfg.PrometheusPort)
+	metricsServer := server.NewMetricsServer(cfg.PrometheusPort)
 	metricsServer.ConfigureRoutes()
 
 	go func() {
