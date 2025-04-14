@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
@@ -22,7 +22,7 @@ func TestCreatePVZ_InvalidRole(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoModeratorRights, err)
+	assert.Equal(t, enum.ErrNoModeratorRights, err)
 }
 
 func TestCreatePVZ_InvalidCity(t *testing.T) {
@@ -39,7 +39,7 @@ func TestCreatePVZ_InvalidCity(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrInvalidCity, err)
+	assert.Equal(t, enum.ErrInvalidCity, err)
 }
 
 func TestCreatePVZ_ValidCitySPb(t *testing.T) {

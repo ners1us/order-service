@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"time"
@@ -27,7 +27,7 @@ func NewReceptionService(receptionRepo repository.ReceptionRepository, pvzRepo r
 
 func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (*model.Reception, error) {
 	if userRole != "employee" {
-		return &model.Reception{}, enums.ErrNoEmployeeRights
+		return &model.Reception{}, enum.ErrNoEmployeeRights
 	}
 
 	pvz, err := rs.pvzRepo.GetPVZByID(pvzID)
@@ -35,7 +35,7 @@ func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (
 		return &model.Reception{}, err
 	}
 	if pvz.ID == "" {
-		return &model.Reception{}, enums.ErrPVZNotFound
+		return &model.Reception{}, enum.ErrPVZNotFound
 	}
 
 	lastReception, err := rs.receptionRepo.GetLastReceptionByPVZID(pvzID)
@@ -43,7 +43,7 @@ func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (
 		return &model.Reception{}, err
 	}
 	if lastReception.Status == "in_progress" {
-		return &model.Reception{}, enums.ErrOpenReception
+		return &model.Reception{}, enum.ErrOpenReception
 	}
 
 	reception := model.Reception{
@@ -60,14 +60,14 @@ func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (
 
 func (rs *receptionServiceImpl) CloseLastReception(pvzID string, userRole string) (*model.Reception, error) {
 	if userRole != "employee" {
-		return &model.Reception{}, enums.ErrNoEmployeeRights
+		return &model.Reception{}, enum.ErrNoEmployeeRights
 	}
 	lastReception, err := rs.receptionRepo.GetLastReceptionByPVZID(pvzID)
 	if err != nil {
 		return &model.Reception{}, err
 	}
 	if lastReception.Status != "in_progress" {
-		return &model.Reception{}, enums.ErrNoOpenReceptionToClose
+		return &model.Reception{}, enum.ErrNoOpenReceptionToClose
 	}
 	if err := rs.receptionRepo.UpdateReceptionStatus(lastReception.ID, "closed"); err != nil {
 		return &model.Reception{}, err

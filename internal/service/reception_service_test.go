@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
@@ -23,7 +23,7 @@ func TestCreateReception_NoEmployee(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoEmployeeRights, err)
+	assert.Equal(t, enum.ErrNoEmployeeRights, err)
 }
 
 func TestCloseLastReception_Success(t *testing.T) {
@@ -59,7 +59,7 @@ func TestCreateReception_PVZNotFound(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrPVZNotFound, err)
+	assert.Equal(t, enum.ErrPVZNotFound, err)
 }
 
 func TestCreateReception_RepoError(t *testing.T) {

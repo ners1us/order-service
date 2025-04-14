@@ -3,7 +3,7 @@ package rest
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/metric"
 	"github.com/ners1us/order-service/internal/service"
 	"net/http"
@@ -34,7 +34,7 @@ func (rh *receptionHandlerImpl) CreateReception(c *gin.Context) {
 	reception, err := rh.receptionService.CreateReception(req.PVZID, role.(string))
 	if err != nil {
 		status := http.StatusBadRequest
-		if errors.Is(err, enums.ErrNoModeratorRights) {
+		if errors.Is(err, enum.ErrNoModeratorRights) {
 			status = http.StatusForbidden
 		}
 		c.JSON(status, gin.H{"error": err.Error()})
@@ -52,7 +52,7 @@ func (rh *receptionHandlerImpl) CloseLastReception(c *gin.Context) {
 	reception, err := rh.receptionService.CloseLastReception(pvzID, role.(string))
 	if err != nil {
 		status := http.StatusBadRequest
-		if errors.Is(err, enums.ErrNoModeratorRights) {
+		if errors.Is(err, enum.ErrNoModeratorRights) {
 			status = http.StatusForbidden
 		}
 		c.JSON(status, gin.H{"error": err.Error()})

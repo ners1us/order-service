@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
@@ -23,7 +23,7 @@ func TestDummyLogin_InvalidRole(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrInvalidRole, err)
+	assert.Equal(t, enum.ErrInvalidRole, err)
 }
 
 func TestDummyLogin_Moderator(t *testing.T) {
@@ -77,7 +77,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrWrongCredentials, err)
+	assert.Equal(t, enum.ErrWrongCredentials, err)
 }
 
 func TestLogin_UserNotFound(t *testing.T) {
@@ -95,5 +95,5 @@ func TestLogin_UserNotFound(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrUserNotFound, err)
+	assert.Equal(t, enum.ErrUserNotFound, err)
 }

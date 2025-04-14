@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
@@ -68,7 +68,7 @@ func TestAddProduct_NotEmployee(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoEmployeeRights, err)
+	assert.Equal(t, enum.ErrNoEmployeeRights, err)
 }
 
 func TestAddProduct_NoOpenReception(t *testing.T) {
@@ -87,7 +87,7 @@ func TestAddProduct_NoOpenReception(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoOpenReceptionsToAdd, err)
+	assert.Equal(t, enum.ErrNoOpenReceptionsToAdd, err)
 }
 
 func TestDeleteLastProduct_InvalidRole(t *testing.T) {
@@ -103,7 +103,7 @@ func TestDeleteLastProduct_InvalidRole(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoEmployeeRights, err)
+	assert.Equal(t, enum.ErrNoEmployeeRights, err)
 }
 
 func TestDeleteLastProduct_EmptyReceptionID(t *testing.T) {
@@ -120,7 +120,7 @@ func TestDeleteLastProduct_EmptyReceptionID(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoOpenReceptionToDelete, err)
+	assert.Equal(t, enum.ErrNoOpenReceptionToDelete, err)
 }
 
 func TestAddProduct_EmptyPVZID(t *testing.T) {
@@ -138,7 +138,7 @@ func TestAddProduct_EmptyPVZID(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enums.ErrNoOpenReceptionsToAdd, err)
+	assert.Equal(t, enum.ErrNoOpenReceptionsToAdd, err)
 }
 
 func TestDeleteLastProduct_ProductRepoError(t *testing.T) {

@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"golang.org/x/crypto/bcrypt"
@@ -46,17 +46,17 @@ func (us *userServiceImpl) Login(email, password string) (string, error) {
 		return "", err
 	}
 	if user.ID == "" {
-		return "", enums.ErrUserNotFound
+		return "", enum.ErrUserNotFound
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
-		return "", enums.ErrWrongCredentials
+		return "", enum.ErrWrongCredentials
 	}
 	return us.jwtService.GenerateToken(user.ID, user.Role)
 }
 
 func (us *userServiceImpl) DummyLogin(role string) (string, error) {
 	if role != "employee" && role != "moderator" {
-		return "", enums.ErrInvalidRole
+		return "", enum.ErrInvalidRole
 	}
 	dummyUserID := "dummy_" + role
 	return us.jwtService.GenerateToken(dummyUserID, role)

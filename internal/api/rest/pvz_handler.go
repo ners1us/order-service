@@ -3,7 +3,7 @@ package rest
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/metric"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/service"
@@ -35,7 +35,7 @@ func (ph *pvzHandlerImpl) CreatePVZ(c *gin.Context) {
 	createdPVZ, err := ph.pvzService.CreatePVZ(&pvz, role.(string))
 	if err != nil {
 		status := http.StatusBadRequest
-		if errors.Is(err, enums.ErrNoModeratorRights) {
+		if errors.Is(err, enum.ErrNoModeratorRights) {
 			status = http.StatusForbidden
 		}
 		c.JSON(status, gin.H{"error": err.Error()})
@@ -58,14 +58,14 @@ func (ph *pvzHandlerImpl) GetPVZList(c *gin.Context) {
 	if startDateStr != "" {
 		startDate, err = time.Parse(time.RFC3339, startDateStr)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": enums.ErrInvalidStartDate.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"error": enum.ErrInvalidStartDate.Error()})
 			return
 		}
 	}
 	if endDateStr != "" {
 		endDate, err = time.Parse(time.RFC3339, endDateStr)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": enums.ErrInvalidEndDate.Error()})
+			c.JSON(http.StatusBadRequest, gin.H{"error": enum.ErrInvalidEndDate.Error()})
 			return
 		}
 	}

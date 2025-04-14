@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"time"
@@ -27,14 +27,14 @@ func NewProductService(receptionRepo repository.ReceptionRepository, productRepo
 
 func (ps *productServiceImpl) AddProduct(product *model.Product, pvzID string, userRole string) (*model.Product, error) {
 	if userRole != "employee" {
-		return &model.Product{}, enums.ErrNoEmployeeRights
+		return &model.Product{}, enum.ErrNoEmployeeRights
 	}
 	lastReception, err := ps.receptionRepo.GetLastReceptionByPVZID(pvzID)
 	if err != nil {
 		return &model.Product{}, err
 	}
 	if lastReception.Status != "in_progress" {
-		return &model.Product{}, enums.ErrNoOpenReceptionsToAdd
+		return &model.Product{}, enum.ErrNoOpenReceptionsToAdd
 	}
 	product.ID = uuid.New().String()
 	product.DateTime = time.Now()
@@ -47,21 +47,21 @@ func (ps *productServiceImpl) AddProduct(product *model.Product, pvzID string, u
 
 func (ps *productServiceImpl) DeleteLastProduct(pvzID string, userRole string) error {
 	if userRole != "employee" {
-		return enums.ErrNoEmployeeRights
+		return enum.ErrNoEmployeeRights
 	}
 	lastReception, err := ps.receptionRepo.GetLastReceptionByPVZID(pvzID)
 	if err != nil {
 		return err
 	}
 	if lastReception.Status != "in_progress" {
-		return enums.ErrNoOpenReceptionToDelete
+		return enum.ErrNoOpenReceptionToDelete
 	}
 	lastProduct, err := ps.productRepo.GetLastProductByReceptionID(lastReception.ID)
 	if err != nil {
 		return err
 	}
 	if lastProduct.ID == "" {
-		return enums.ErrNoProductsToDelete
+		return enum.ErrNoProductsToDelete
 	}
 	return ps.productRepo.DeleteProduct(lastProduct.ID)
 }

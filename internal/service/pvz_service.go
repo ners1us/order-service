@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"time"
@@ -28,10 +28,10 @@ func NewPVZService(pvzRepo repository.PVZRepository, receptionRepo repository.Re
 
 func (ps *pvzServiceImpl) CreatePVZ(pvz *model.PVZ, userRole string) (*model.PVZ, error) {
 	if userRole != "moderator" {
-		return &model.PVZ{}, enums.ErrNoModeratorRights
+		return &model.PVZ{}, enum.ErrNoModeratorRights
 	}
 	if pvz.City != "Москва" && pvz.City != "Санкт-Петербург" && pvz.City != "Казань" {
-		return &model.PVZ{}, enums.ErrInvalidCity
+		return &model.PVZ{}, enum.ErrInvalidCity
 	}
 	if err := ps.pvzRepo.CreatePVZ(pvz); err != nil {
 		return &model.PVZ{}, err

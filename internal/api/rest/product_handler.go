@@ -3,7 +3,7 @@ package rest
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/ners1us/order-service/internal/enums"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/metric"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/service"
@@ -37,7 +37,7 @@ func (ph *productHandlerImpl) AddProduct(c *gin.Context) {
 	createdProduct, err := ph.productService.AddProduct(&product, req.PVZID, role.(string))
 	if err != nil {
 		status := http.StatusBadRequest
-		if errors.Is(err, enums.ErrNoEmployeeRights) {
+		if errors.Is(err, enum.ErrNoEmployeeRights) {
 			status = http.StatusForbidden
 		}
 		c.JSON(status, gin.H{"error": err.Error()})
@@ -54,7 +54,7 @@ func (ph *productHandlerImpl) DeleteLastProduct(c *gin.Context) {
 	role, _ := c.Get("role")
 	if err := ph.productService.DeleteLastProduct(pvzID, role.(string)); err != nil {
 		status := http.StatusBadRequest
-		if errors.Is(err, enums.ErrNoEmployeeRights) {
+		if errors.Is(err, enum.ErrNoEmployeeRights) {
 			status = http.StatusForbidden
 		}
 		c.JSON(status, gin.H{"error": err.Error()})
