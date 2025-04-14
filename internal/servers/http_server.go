@@ -84,7 +84,7 @@ func (hs *httpServer) Stop(ctx context.Context) {
 	select {
 	case err := <-errCh:
 		if err != nil {
-			log.Printf("HTTP server shutdown error: %v\n", err)
+			log.Printf("HTTP server shutdown error: %v", err)
 		} else {
 			log.Println("HTTP server stopped gracefully")
 		}

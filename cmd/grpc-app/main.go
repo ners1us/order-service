@@ -40,7 +40,7 @@ func main() {
 	}()
 
 	sig := <-sigCh
-	log.Printf("gRPC server shutting down. received signal: %v\n", sig)
+	log.Printf("gRPC server shutting down. received signal: %v", sig)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

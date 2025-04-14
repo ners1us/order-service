@@ -50,7 +50,7 @@ func (ms *metricsServer) Stop(ctx context.Context) {
 	select {
 	case err := <-errCh:
 		if err != nil {
-			log.Printf("metrics server shutdown error: %v\n", err)
+			log.Printf("metrics server shutdown error: %v", err)
 		} else {
 			log.Println("metrics server stopped gracefully")
 		}
