@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"time"
 )
 
@@ -14,11 +14,11 @@ type ProductService interface {
 }
 
 type productServiceImpl struct {
-	receptionRepo repositories.ReceptionRepository
-	productRepo   repositories.ProductRepository
+	receptionRepo repository.ReceptionRepository
+	productRepo   repository.ProductRepository
 }
 
-func NewProductService(receptionRepo repositories.ReceptionRepository, productRepo repositories.ProductRepository) ProductService {
+func NewProductService(receptionRepo repository.ReceptionRepository, productRepo repository.ProductRepository) ProductService {
 	return &productServiceImpl{
 		receptionRepo,
 		productRepo,

@@ -2,17 +2,17 @@ package service
 
 import (
 	"context"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/pkg/generated/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type PVZGrpcService struct {
 	proto.UnimplementedPVZServiceServer
-	pvzRepository repositories.PVZRepository
+	pvzRepository repository.PVZRepository
 }
 
-func NewPVZGrpcService(pvzRepository repositories.PVZRepository) *PVZGrpcService {
+func NewPVZGrpcService(pvzRepository repository.PVZRepository) *PVZGrpcService {
 	return &PVZGrpcService{
 		pvzRepository: pvzRepository,
 	}

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
@@ -13,8 +13,8 @@ import (
 
 func TestAddProduct_Success(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(models.Product)
 	pvzID := "test_pvz_id"
@@ -34,8 +34,8 @@ func TestAddProduct_Success(t *testing.T) {
 
 func TestAddProduct_ProductRepoError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 
 	product := &models.Product{}
@@ -56,8 +56,8 @@ func TestAddProduct_ProductRepoError(t *testing.T) {
 
 func TestAddProduct_NotEmployee(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(models.Product)
 	pvzID := "test_pvz_id2"
@@ -73,8 +73,8 @@ func TestAddProduct_NotEmployee(t *testing.T) {
 
 func TestAddProduct_NoOpenReception(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(models.Product)
 	pvzID := "test_pvz_id"
@@ -92,8 +92,8 @@ func TestAddProduct_NoOpenReception(t *testing.T) {
 
 func TestDeleteLastProduct_InvalidRole(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
 	userRole := "test_user_id"
@@ -108,8 +108,8 @@ func TestDeleteLastProduct_InvalidRole(t *testing.T) {
 
 func TestDeleteLastProduct_EmptyReceptionID(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
@@ -125,8 +125,8 @@ func TestDeleteLastProduct_EmptyReceptionID(t *testing.T) {
 
 func TestAddProduct_EmptyPVZID(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(models.Product)
 	pvzID := ""
@@ -143,8 +143,8 @@ func TestAddProduct_EmptyPVZID(t *testing.T) {
 
 func TestDeleteLastProduct_ProductRepoError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
@@ -163,8 +163,8 @@ func TestDeleteLastProduct_ProductRepoError(t *testing.T) {
 
 func TestDeleteLastProduct_GetLastProductError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 
 	pvzID := "test_pvz_id"
@@ -186,9 +186,9 @@ func TestDeleteLastProduct_GetLastProductError(t *testing.T) {
 
 func TestGetPVZList_Success(t *testing.T) {
 	// Arrange
-	mockPVZRepo := new(repositories.MockPVZRepository)
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 
 	page, limit := 1, 10
@@ -236,9 +236,9 @@ func TestGetPVZList_Success(t *testing.T) {
 
 func TestGetPVZList_PVZRepoError(t *testing.T) {
 	// Arrange
-	mockPVZRepo := new(repositories.MockPVZRepository)
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 
 	page, limit := 1, 10

@@ -5,7 +5,7 @@ import (
 	"github.com/ners1us/order-service/internal/api/rest"
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/internal/server"
 	"github.com/ners1us/order-service/internal/service"
 	"log"
@@ -24,10 +24,10 @@ func main() {
 	}
 	defer db.Close()
 
-	userRepo := repositories.NewUserRepository(db)
-	pvzRepo := repositories.NewPVZRepository(db)
-	receptionRepo := repositories.NewReceptionRepository(db)
-	productRepo := repositories.NewProductRepository(db)
+	userRepo := repository.NewUserRepository(db)
+	pvzRepo := repository.NewPVZRepository(db)
+	receptionRepo := repository.NewReceptionRepository(db)
+	productRepo := repository.NewProductRepository(db)
 
 	jwtService := service.NewJWTService(cfg.JWTSecret)
 	userService := service.NewUserService(userRepo, jwtService)

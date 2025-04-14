@@ -10,7 +10,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/internal/service"
 	"github.com/stretchr/testify/assert"
 	"github.com/testcontainers/testcontainers-go"
@@ -118,9 +118,9 @@ func applyMigrations(connStr string) error {
 }
 
 func TestPVZReceptionProductFlow_Integration(t *testing.T) {
-	pvzRepo := repositories.NewPVZRepository(db)
-	receptionRepo := repositories.NewReceptionRepository(db)
-	productRepo := repositories.NewProductRepository(db)
+	pvzRepo := repository.NewPVZRepository(db)
+	receptionRepo := repository.NewReceptionRepository(db)
+	productRepo := repository.NewProductRepository(db)
 
 	pvzService := service.NewPVZService(pvzRepo, receptionRepo, productRepo)
 	receptionService := service.NewReceptionService(receptionRepo, pvzRepo)

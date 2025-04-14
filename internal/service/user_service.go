@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -15,11 +15,11 @@ type UserService interface {
 }
 
 type userServiceImpl struct {
-	userRepo   repositories.UserRepository
+	userRepo   repository.UserRepository
 	jwtService JWTService
 }
 
-func NewUserService(userRepo repositories.UserRepository, jwtService JWTService) UserService {
+func NewUserService(userRepo repository.UserRepository, jwtService JWTService) UserService {
 	return &userServiceImpl{
 		userRepo,
 		jwtService,

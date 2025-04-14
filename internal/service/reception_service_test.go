@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
@@ -12,8 +12,8 @@ import (
 
 func TestCreateReception_NoEmployee(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "moderator"
@@ -28,8 +28,8 @@ func TestCreateReception_NoEmployee(t *testing.T) {
 
 func TestCloseLastReception_Success(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
@@ -47,8 +47,8 @@ func TestCloseLastReception_Success(t *testing.T) {
 
 func TestCreateReception_PVZNotFound(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
@@ -64,8 +64,8 @@ func TestCreateReception_PVZNotFound(t *testing.T) {
 
 func TestCreateReception_RepoError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
@@ -84,8 +84,8 @@ func TestCreateReception_RepoError(t *testing.T) {
 
 func TestCloseLastReception_UpdateError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
@@ -103,8 +103,8 @@ func TestCloseLastReception_UpdateError(t *testing.T) {
 
 func TestCreateReception_GetLastReceptionError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 
 	pvzID := "test_pvz_id"
@@ -124,8 +124,8 @@ func TestCreateReception_GetLastReceptionError(t *testing.T) {
 
 func TestCreateReception_GetPVZError(t *testing.T) {
 	// Arrange
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockPVZRepo := new(repositories.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 
 	pvzID := "test_pvz_id"

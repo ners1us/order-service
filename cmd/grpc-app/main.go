@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/ners1us/order-service/internal/config"
 	"github.com/ners1us/order-service/internal/database"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/internal/server"
 	"log"
 	"os"
@@ -22,7 +22,7 @@ func main() {
 	}
 	defer db.Close()
 
-	pvzRepo := repositories.NewPVZRepository(db)
+	pvzRepo := repository.NewPVZRepository(db)
 
 	grpcServer, err := server.NewServer(pvzRepo, cfg.GrpcPort)
 	if err != nil {

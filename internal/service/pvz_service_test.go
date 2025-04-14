@@ -3,16 +3,16 @@ package service
 import (
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestCreatePVZ_InvalidRole(t *testing.T) {
 	// Arrange
-	mockPVZRepo := new(repositories.MockPVZRepository)
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 	pvz := new(models.PVZ)
 	userRole := "employee"
@@ -27,9 +27,9 @@ func TestCreatePVZ_InvalidRole(t *testing.T) {
 
 func TestCreatePVZ_InvalidCity(t *testing.T) {
 	// Arrange
-	mockPVZRepo := new(repositories.MockPVZRepository)
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 	pvz := &models.PVZ{City: "InvalidCity"}
 	userRole := "moderator"
@@ -44,9 +44,9 @@ func TestCreatePVZ_InvalidCity(t *testing.T) {
 
 func TestCreatePVZ_ValidCitySPb(t *testing.T) {
 	// Arrange
-	mockPVZRepo := new(repositories.MockPVZRepository)
-	mockReceptionRepo := new(repositories.MockReceptionRepository)
-	mockProductRepo := new(repositories.MockProductRepository)
+	mockPVZRepo := new(repository.MockPVZRepository)
+	mockReceptionRepo := new(repository.MockReceptionRepository)
+	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 	pvz := &models.PVZ{City: "Санкт-Петербург"}
 	userRole := "moderator"

@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"time"
 )
 
@@ -13,12 +13,12 @@ type PVZService interface {
 }
 
 type pvzServiceImpl struct {
-	pvzRepo       repositories.PVZRepository
-	receptionRepo repositories.ReceptionRepository
-	productRepo   repositories.ProductRepository
+	pvzRepo       repository.PVZRepository
+	receptionRepo repository.ReceptionRepository
+	productRepo   repository.ProductRepository
 }
 
-func NewPVZService(pvzRepo repositories.PVZRepository, receptionRepo repositories.ReceptionRepository, productRepo repositories.ProductRepository) PVZService {
+func NewPVZService(pvzRepo repository.PVZRepository, receptionRepo repository.ReceptionRepository, productRepo repository.ProductRepository) PVZService {
 	return &pvzServiceImpl{
 		pvzRepo,
 		receptionRepo,

@@ -3,7 +3,7 @@ package service
 import (
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"golang.org/x/crypto/bcrypt"
@@ -14,7 +14,7 @@ func TestDummyLogin_InvalidRole(t *testing.T) {
 	// Arrange
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
-	mockUserRepo := new(repositories.MockUserRepository)
+	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
 	role := "programmer"
 
@@ -30,7 +30,7 @@ func TestDummyLogin_Moderator(t *testing.T) {
 	// Arrange
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
-	mockUserRepo := new(repositories.MockUserRepository)
+	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
 	role := "moderator"
 
@@ -46,7 +46,7 @@ func TestRegister_Success(t *testing.T) {
 	// Arrange
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
-	mockUserRepo := new(repositories.MockUserRepository)
+	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
 	user := &models.User{Email: "tonyStark@example.com", Password: "password"}
 	mockUserRepo.On("CreateUser", mock.Anything).Return(nil)
@@ -64,7 +64,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 	// Arrange
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
-	mockUserRepo := new(repositories.MockUserRepository)
+	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
 	email := "coolmail@example.com"
 	password := "password12345"
@@ -84,7 +84,7 @@ func TestLogin_UserNotFound(t *testing.T) {
 	// Arrange
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
-	mockUserRepo := new(repositories.MockUserRepository)
+	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
 	email := "linuxuser@mail.com"
 	password := "password"

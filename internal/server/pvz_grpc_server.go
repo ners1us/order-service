@@ -10,7 +10,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/pkg/generated/proto"
 )
 
@@ -18,11 +18,11 @@ type pvzGrpcServer struct {
 	server         *grpc.Server
 	pvzGrpcService *service.PVZGrpcService
 	listener       net.Listener
-	pvzRepo        repositories.PVZRepository
+	pvzRepo        repository.PVZRepository
 }
 
 func NewServer(
-	pvzRepo repositories.PVZRepository,
+	pvzRepo repository.PVZRepository,
 	port string,
 ) (BackendServer, error) {
 	lis, err := net.Listen("tcp", ":"+port)

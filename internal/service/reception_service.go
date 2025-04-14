@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/models"
-	"github.com/ners1us/order-service/internal/repositories"
+	"github.com/ners1us/order-service/internal/repository"
 	"time"
 )
 
@@ -14,11 +14,11 @@ type ReceptionService interface {
 }
 
 type receptionServiceImpl struct {
-	receptionRepo repositories.ReceptionRepository
-	pvzRepo       repositories.PVZRepository
+	receptionRepo repository.ReceptionRepository
+	pvzRepo       repository.PVZRepository
 }
 
-func NewReceptionService(receptionRepo repositories.ReceptionRepository, pvzRepo repositories.PVZRepository) ReceptionService {
+func NewReceptionService(receptionRepo repository.ReceptionRepository, pvzRepo repository.PVZRepository) ReceptionService {
 	return &receptionServiceImpl{
 		receptionRepo,
 		pvzRepo,
