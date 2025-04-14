@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/metrics"
+	"github.com/ners1us/order-service/internal/metric"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/service"
 	"net/http"
@@ -44,7 +44,7 @@ func (ph *productHandlerImpl) AddProduct(c *gin.Context) {
 		return
 	}
 
-	metrics.ProductsAdded.Inc()
+	metric.ProductsAdded.Inc()
 
 	c.JSON(http.StatusCreated, createdProduct)
 }
