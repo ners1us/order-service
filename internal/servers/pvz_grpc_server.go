@@ -2,6 +2,7 @@ package servers
 
 import (
 	"context"
+	"github.com/ners1us/order-service/internal/loggers"
 	"github.com/ners1us/order-service/internal/services"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -29,7 +30,7 @@ func NewServer(
 		return nil, err
 	}
 
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(grpc.UnaryInterceptor(loggers.GrpcLogger))
 
 	return &pvzGrpcServer{
 		server:   grpcServer,
