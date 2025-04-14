@@ -3,13 +3,13 @@ package service
 import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
-	Register(user *models.User) (*models.User, error)
+	Register(user *model.User) (*model.User, error)
 	Login(email, password string) (string, error)
 	DummyLogin(role string) (string, error)
 }
@@ -26,16 +26,16 @@ func NewUserService(userRepo repository.UserRepository, jwtService JWTService) U
 	}
 }
 
-func (us *userServiceImpl) Register(user *models.User) (*models.User, error) {
+func (us *userServiceImpl) Register(user *model.User) (*model.User, error) {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return &models.User{}, err
+		return &model.User{}, err
 	}
 	user.Password = string(hashedPassword)
 	user.ID = uuid.New().String()
 	err = us.userRepo.CreateUser(user)
 	if err != nil {
-		return &models.User{}, err
+		return &model.User{}, err
 	}
 	return user, nil
 }

@@ -3,13 +3,13 @@ package service
 import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"time"
 )
 
 type ProductService interface {
-	AddProduct(product *models.Product, pvzID string, userRole string) (*models.Product, error)
+	AddProduct(product *model.Product, pvzID string, userRole string) (*model.Product, error)
 	DeleteLastProduct(pvzID string, userRole string) error
 }
 
@@ -25,22 +25,22 @@ func NewProductService(receptionRepo repository.ReceptionRepository, productRepo
 	}
 }
 
-func (ps *productServiceImpl) AddProduct(product *models.Product, pvzID string, userRole string) (*models.Product, error) {
+func (ps *productServiceImpl) AddProduct(product *model.Product, pvzID string, userRole string) (*model.Product, error) {
 	if userRole != "employee" {
-		return &models.Product{}, enums.ErrNoEmployeeRights
+		return &model.Product{}, enums.ErrNoEmployeeRights
 	}
 	lastReception, err := ps.receptionRepo.GetLastReceptionByPVZID(pvzID)
 	if err != nil {
-		return &models.Product{}, err
+		return &model.Product{}, err
 	}
 	if lastReception.Status != "in_progress" {
-		return &models.Product{}, enums.ErrNoOpenReceptionsToAdd
+		return &model.Product{}, enums.ErrNoOpenReceptionsToAdd
 	}
 	product.ID = uuid.New().String()
 	product.DateTime = time.Now()
 	product.ReceptionID = lastReception.ID
 	if err := ps.productRepo.CreateProduct(product); err != nil {
-		return &models.Product{}, err
+		return &model.Product{}, err
 	}
 	return product, nil
 }

@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -48,7 +48,7 @@ func TestRegister_Success(t *testing.T) {
 	jwtService := NewJWTService(secretKey)
 	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
-	user := &models.User{Email: "tonyStark@example.com", Password: "password"}
+	user := &model.User{Email: "tonyStark@example.com", Password: "password"}
 	mockUserRepo.On("CreateUser", mock.Anything).Return(nil)
 
 	// Act
@@ -69,7 +69,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 	email := "coolmail@example.com"
 	password := "password12345"
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("correct_password"), bcrypt.DefaultCost)
-	user := &models.User{ID: "user1", Email: email, Password: string(hashedPassword), Role: "employee"}
+	user := &model.User{ID: "user1", Email: email, Password: string(hashedPassword), Role: "employee"}
 	mockUserRepo.On("GetUserByEmail", email).Return(user, nil)
 
 	// Act
@@ -88,7 +88,7 @@ func TestLogin_UserNotFound(t *testing.T) {
 	service := NewUserService(mockUserRepo, jwtService)
 	email := "linuxuser@mail.com"
 	password := "password"
-	mockUserRepo.On("GetUserByEmail", email).Return(&models.User{}, nil)
+	mockUserRepo.On("GetUserByEmail", email).Return(&model.User{}, nil)
 
 	// Act
 	_, err := service.Login(email, password)

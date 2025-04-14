@@ -3,14 +3,14 @@ package service
 import (
 	"github.com/google/uuid"
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"time"
 )
 
 type ReceptionService interface {
-	CreateReception(pvzID string, userRole string) (*models.Reception, error)
-	CloseLastReception(pvzID string, userRole string) (*models.Reception, error)
+	CreateReception(pvzID string, userRole string) (*model.Reception, error)
+	CloseLastReception(pvzID string, userRole string) (*model.Reception, error)
 }
 
 type receptionServiceImpl struct {
@@ -25,52 +25,52 @@ func NewReceptionService(receptionRepo repository.ReceptionRepository, pvzRepo r
 	}
 }
 
-func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (*models.Reception, error) {
+func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (*model.Reception, error) {
 	if userRole != "employee" {
-		return &models.Reception{}, enums.ErrNoEmployeeRights
+		return &model.Reception{}, enums.ErrNoEmployeeRights
 	}
 
 	pvz, err := rs.pvzRepo.GetPVZByID(pvzID)
 	if err != nil {
-		return &models.Reception{}, err
+		return &model.Reception{}, err
 	}
 	if pvz.ID == "" {
-		return &models.Reception{}, enums.ErrPVZNotFound
+		return &model.Reception{}, enums.ErrPVZNotFound
 	}
 
 	lastReception, err := rs.receptionRepo.GetLastReceptionByPVZID(pvzID)
 	if err != nil {
-		return &models.Reception{}, err
+		return &model.Reception{}, err
 	}
 	if lastReception.Status == "in_progress" {
-		return &models.Reception{}, enums.ErrOpenReception
+		return &model.Reception{}, enums.ErrOpenReception
 	}
 
-	reception := models.Reception{
+	reception := model.Reception{
 		ID:       uuid.New().String(),
 		DateTime: time.Now(),
 		PVZID:    pvzID,
 		Status:   "in_progress",
 	}
 	if err := rs.receptionRepo.CreateReception(&reception); err != nil {
-		return &models.Reception{}, err
+		return &model.Reception{}, err
 	}
 	return &reception, nil
 }
 
-func (rs *receptionServiceImpl) CloseLastReception(pvzID string, userRole string) (*models.Reception, error) {
+func (rs *receptionServiceImpl) CloseLastReception(pvzID string, userRole string) (*model.Reception, error) {
 	if userRole != "employee" {
-		return &models.Reception{}, enums.ErrNoEmployeeRights
+		return &model.Reception{}, enums.ErrNoEmployeeRights
 	}
 	lastReception, err := rs.receptionRepo.GetLastReceptionByPVZID(pvzID)
 	if err != nil {
-		return &models.Reception{}, err
+		return &model.Reception{}, err
 	}
 	if lastReception.Status != "in_progress" {
-		return &models.Reception{}, enums.ErrNoOpenReceptionToClose
+		return &model.Reception{}, enums.ErrNoOpenReceptionToClose
 	}
 	if err := rs.receptionRepo.UpdateReceptionStatus(lastReception.ID, "closed"); err != nil {
-		return &models.Reception{}, err
+		return &model.Reception{}, err
 	}
 	lastReception.Status = "closed"
 	return lastReception, nil

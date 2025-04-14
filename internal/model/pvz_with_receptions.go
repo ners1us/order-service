@@ -1,4 +1,4 @@
-package models
+package model
 
 type PVZWithReceptions struct {
 	PVZ        PVZ                     `json:"pvz"`

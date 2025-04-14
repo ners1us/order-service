@@ -5,14 +5,14 @@ import (
 	"errors"
 	"github.com/lib/pq"
 	_ "github.com/lib/pq"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 )
 
 type ProductRepository interface {
-	CreateProduct(product *models.Product) error
-	GetLastProductByReceptionID(receptionID string) (*models.Product, error)
+	CreateProduct(product *model.Product) error
+	GetLastProductByReceptionID(receptionID string) (*model.Product, error)
 	DeleteProduct(id string) error
-	GetProductsByReceptionIDs(receptionIDs []string) ([]models.Product, error)
+	GetProductsByReceptionIDs(receptionIDs []string) ([]model.Product, error)
 }
 
 type productRepositoryImpl struct {
@@ -23,16 +23,16 @@ func NewProductRepository(db *sql.DB) ProductRepository {
 	return &productRepositoryImpl{db}
 }
 
-func (pr *productRepositoryImpl) CreateProduct(product *models.Product) error {
+func (pr *productRepositoryImpl) CreateProduct(product *model.Product) error {
 	_, err := pr.db.Exec("INSERT INTO products (id, date_time, type, reception_id) VALUES ($1, $2, $3, $4)", product.ID, product.DateTime, product.Type, product.ReceptionID)
 	return err
 }
 
-func (pr *productRepositoryImpl) GetLastProductByReceptionID(receptionID string) (*models.Product, error) {
-	var product models.Product
+func (pr *productRepositoryImpl) GetLastProductByReceptionID(receptionID string) (*model.Product, error) {
+	var product model.Product
 	err := pr.db.QueryRow("SELECT id, date_time, type, reception_id FROM products WHERE reception_id = $1 ORDER BY date_time DESC LIMIT 1", receptionID).Scan(&product.ID, &product.DateTime, &product.Type, &product.ReceptionID)
 	if errors.Is(err, sql.ErrNoRows) {
-		return &models.Product{}, err
+		return &model.Product{}, err
 	}
 	return &product, nil
 }
@@ -42,16 +42,16 @@ func (pr *productRepositoryImpl) DeleteProduct(id string) error {
 	return err
 }
 
-func (pr *productRepositoryImpl) GetProductsByReceptionIDs(receptionIDs []string) ([]models.Product, error) {
+func (pr *productRepositoryImpl) GetProductsByReceptionIDs(receptionIDs []string) ([]model.Product, error) {
 	query := "SELECT id, date_time, type, reception_id FROM products WHERE reception_id = ANY($1)"
 	rows, err := pr.db.Query(query, pq.Array(receptionIDs))
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var products []models.Product
+	var products []model.Product
 	for rows.Next() {
-		var product models.Product
+		var product model.Product
 		if err := rows.Scan(&product.ID, &product.DateTime, &product.Type, &product.ReceptionID); err != nil {
 			return nil, err
 		}

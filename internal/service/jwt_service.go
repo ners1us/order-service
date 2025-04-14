@@ -2,13 +2,13 @@ package service
 
 import (
 	"github.com/golang-jwt/jwt"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"time"
 )
 
 type JWTService interface {
 	GenerateToken(userID, role string) (string, error)
-	ValidateToken(tokenString string) (*models.Claims, error)
+	ValidateToken(tokenString string) (*model.Claims, error)
 }
 
 type jwtServiceImpl struct {
@@ -20,7 +20,7 @@ func NewJWTService(secretKey string) JWTService {
 }
 
 func (js *jwtServiceImpl) GenerateToken(userID, role string) (string, error) {
-	claims := models.Claims{
+	claims := model.Claims{
 		UserID: userID,
 		Role:   role,
 		StandardClaims: jwt.StandardClaims{
@@ -31,14 +31,14 @@ func (js *jwtServiceImpl) GenerateToken(userID, role string) (string, error) {
 	return token.SignedString([]byte(js.secretKey))
 }
 
-func (js *jwtServiceImpl) ValidateToken(tokenString string) (*models.Claims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &models.Claims{}, func(token *jwt.Token) (interface{}, error) {
+func (js *jwtServiceImpl) ValidateToken(tokenString string) (*model.Claims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &model.Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(js.secretKey), nil
 	})
 	if err != nil {
 		return nil, err
 	}
-	if claims, ok := token.Claims.(*models.Claims); ok && token.Valid {
+	if claims, ok := token.Claims.(*model.Claims); ok && token.Valid {
 		return claims, nil
 	}
 	return nil, jwt.ErrSignatureInvalid

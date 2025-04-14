@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/metrics"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 	"strconv"
@@ -27,7 +27,7 @@ func NewPVZHandler(pvzService service.PVZService) PVZHandler {
 
 func (ph *pvzHandlerImpl) CreatePVZ(c *gin.Context) {
 	role, _ := c.Get("role")
-	var pvz models.PVZ
+	var pvz model.PVZ
 	if err := c.BindJSON(&pvz); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

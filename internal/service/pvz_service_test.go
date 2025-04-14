@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"testing"
@@ -14,7 +14,7 @@ func TestCreatePVZ_InvalidRole(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
-	pvz := new(models.PVZ)
+	pvz := new(model.PVZ)
 	userRole := "employee"
 
 	// Act
@@ -31,7 +31,7 @@ func TestCreatePVZ_InvalidCity(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
-	pvz := &models.PVZ{City: "InvalidCity"}
+	pvz := &model.PVZ{City: "InvalidCity"}
 	userRole := "moderator"
 
 	// Act
@@ -48,7 +48,7 @@ func TestCreatePVZ_ValidCitySPb(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
-	pvz := &models.PVZ{City: "Санкт-Петербург"}
+	pvz := &model.PVZ{City: "Санкт-Петербург"}
 	userRole := "moderator"
 	mockPVZRepo.On("CreatePVZ", pvz).Return(nil)
 

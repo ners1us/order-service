@@ -2,14 +2,14 @@ package service
 
 import (
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"time"
 )
 
 type PVZService interface {
-	CreatePVZ(pvz *models.PVZ, userRole string) (*models.PVZ, error)
-	GetPVZList(startDate, endDate time.Time, page, limit int) ([]models.PVZWithReceptions, error)
+	CreatePVZ(pvz *model.PVZ, userRole string) (*model.PVZ, error)
+	GetPVZList(startDate, endDate time.Time, page, limit int) ([]model.PVZWithReceptions, error)
 }
 
 type pvzServiceImpl struct {
@@ -26,20 +26,20 @@ func NewPVZService(pvzRepo repository.PVZRepository, receptionRepo repository.Re
 	}
 }
 
-func (ps *pvzServiceImpl) CreatePVZ(pvz *models.PVZ, userRole string) (*models.PVZ, error) {
+func (ps *pvzServiceImpl) CreatePVZ(pvz *model.PVZ, userRole string) (*model.PVZ, error) {
 	if userRole != "moderator" {
-		return &models.PVZ{}, enums.ErrNoModeratorRights
+		return &model.PVZ{}, enums.ErrNoModeratorRights
 	}
 	if pvz.City != "Москва" && pvz.City != "Санкт-Петербург" && pvz.City != "Казань" {
-		return &models.PVZ{}, enums.ErrInvalidCity
+		return &model.PVZ{}, enums.ErrInvalidCity
 	}
 	if err := ps.pvzRepo.CreatePVZ(pvz); err != nil {
-		return &models.PVZ{}, err
+		return &model.PVZ{}, err
 	}
 	return pvz, nil
 }
 
-func (ps *pvzServiceImpl) GetPVZList(startDate, endDate time.Time, page, limit int) ([]models.PVZWithReceptions, error) {
+func (ps *pvzServiceImpl) GetPVZList(startDate, endDate time.Time, page, limit int) ([]model.PVZWithReceptions, error) {
 	pvzs, err := ps.pvzRepo.GetPVZs(page, limit)
 	if err != nil {
 		return nil, err
@@ -61,22 +61,22 @@ func (ps *pvzServiceImpl) GetPVZList(startDate, endDate time.Time, page, limit i
 		return nil, err
 	}
 
-	receptionProducts := make(map[string][]models.Product)
+	receptionProducts := make(map[string][]model.Product)
 	for _, product := range products {
 		receptionProducts[product.ReceptionID] = append(receptionProducts[product.ReceptionID], product)
 	}
-	pvzReceptions := make(map[string][]models.ReceptionWithProducts)
+	pvzReceptions := make(map[string][]model.ReceptionWithProducts)
 	for _, reception := range receptions {
-		rwp := models.ReceptionWithProducts{
+		rwp := model.ReceptionWithProducts{
 			Reception: reception,
 			Products:  receptionProducts[reception.ID],
 		}
 		pvzReceptions[reception.PVZID] = append(pvzReceptions[reception.PVZID], rwp)
 	}
 
-	var result []models.PVZWithReceptions
+	var result []model.PVZWithReceptions
 	for _, pvz := range pvzs {
-		result = append(result, models.PVZWithReceptions{
+		result = append(result, model.PVZWithReceptions{
 			PVZ:        pvz,
 			Receptions: pvzReceptions[pvz.ID],
 		})

@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/ners1us/order-service/internal/enums"
 	"github.com/ners1us/order-service/internal/metrics"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 )
@@ -33,7 +33,7 @@ func (ph *productHandlerImpl) AddProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	product := models.Product{Type: req.Type}
+	product := model.Product{Type: req.Type}
 	createdProduct, err := ph.productService.AddProduct(&product, req.PVZID, role.(string))
 	if err != nil {
 		status := http.StatusBadRequest

@@ -1,4 +1,4 @@
-package models
+package model
 
 type ReceptionWithProducts struct {
 	Reception Reception `json:"reception"`

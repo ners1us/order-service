@@ -3,7 +3,7 @@ package service
 import (
 	"errors"
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -16,10 +16,10 @@ func TestAddProduct_Success(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
-	product := new(models.Product)
+	product := new(model.Product)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	lastReception := &models.Reception{ID: "rec_1", Status: "in_progress"}
+	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 	mockProductRepo.On("CreateProduct", mock.Anything).Return(nil)
 
@@ -38,12 +38,12 @@ func TestAddProduct_ProductRepoError(t *testing.T) {
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 
-	product := &models.Product{}
+	product := &model.Product{}
 	pvzID := "test_pvz_id"
 	userRole := "employee"
 
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).
-		Return(&models.Reception{ID: "rec_1", Status: "in_progress"}, nil)
+		Return(&model.Reception{ID: "rec_1", Status: "in_progress"}, nil)
 	mockProductRepo.On("CreateProduct", mock.Anything).Return(errors.New("product error"))
 
 	// Act
@@ -59,7 +59,7 @@ func TestAddProduct_NotEmployee(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
-	product := new(models.Product)
+	product := new(model.Product)
 	pvzID := "test_pvz_id2"
 	userRole := "moderator"
 
@@ -76,10 +76,10 @@ func TestAddProduct_NoOpenReception(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
-	product := new(models.Product)
+	product := new(model.Product)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	lastReception := &models.Reception{Status: "closed"}
+	lastReception := &model.Reception{Status: "closed"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 
 	// Act
@@ -113,7 +113,7 @@ func TestDeleteLastProduct_EmptyReceptionID(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&models.Reception{ID: ""}, nil)
+	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{ID: ""}, nil)
 
 	// Act
 	err := service.DeleteLastProduct(pvzID, userRole)
@@ -128,10 +128,10 @@ func TestAddProduct_EmptyPVZID(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
-	product := new(models.Product)
+	product := new(model.Product)
 	pvzID := ""
 	userRole := "employee"
-	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&models.Reception{}, nil)
+	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{}, nil)
 
 	// Act
 	_, err := service.AddProduct(product, pvzID, userRole)
@@ -148,9 +148,9 @@ func TestDeleteLastProduct_ProductRepoError(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	lastReception := &models.Reception{ID: "rec_1", Status: "in_progress"}
+	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
-	mockProductRepo.On("GetLastProductByReceptionID", lastReception.ID).Return(&models.Product{ID: "prod_1"}, nil)
+	mockProductRepo.On("GetLastProductByReceptionID", lastReception.ID).Return(&model.Product{ID: "prod_1"}, nil)
 	mockProductRepo.On("DeleteProduct", "prod_1").Return(errors.New("delete error"))
 
 	// Act
@@ -172,9 +172,9 @@ func TestDeleteLastProduct_GetLastProductError(t *testing.T) {
 	receptionID := "rec_77"
 
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).
-		Return(&models.Reception{ID: receptionID, Status: "in_progress"}, nil)
+		Return(&model.Reception{ID: receptionID, Status: "in_progress"}, nil)
 	mockProductRepo.On("GetLastProductByReceptionID", receptionID).
-		Return(&models.Product{}, errors.New("product error"))
+		Return(&model.Product{}, errors.New("product error"))
 
 	// Act
 	err := service.DeleteLastProduct(pvzID, userRole)
@@ -195,19 +195,19 @@ func TestGetPVZList_Success(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 12, 31, 23, 59, 59, 0, time.UTC)
 
-	pvzs := []models.PVZ{
+	pvzs := []model.PVZ{
 		{ID: "pvz_1", City: "Москва"},
 		{ID: "pvz_2", City: "Санкт-Петербург"},
 	}
 	pvzIDs := []string{"pvz_1", "pvz_2"}
 
-	receptions := []models.Reception{
+	receptions := []model.Reception{
 		{ID: "rec_1", PVZID: "pvz_1", Status: "closed"},
 		{ID: "rec_2", PVZID: "pvz_2", Status: "in_progress"},
 	}
 	receptionIDs := []string{"rec_1", "rec_2"}
 
-	products := []models.Product{
+	products := []model.Product{
 		{ID: "prod_1", ReceptionID: "rec_1", Type: "type_1"},
 		{ID: "prod_2", ReceptionID: "rec_2", Type: "type_2"},
 	}
@@ -245,7 +245,7 @@ func TestGetPVZList_PVZRepoError(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 12, 31, 23, 59, 59, 0, time.UTC)
 
-	mockPVZRepo.On("GetPVZs", page, limit).Return([]models.PVZ{}, errors.New("db error"))
+	mockPVZRepo.On("GetPVZs", page, limit).Return([]model.PVZ{}, errors.New("db error"))
 
 	// Act
 	result, err := service.GetPVZList(startDate, endDate, page, limit)

@@ -2,7 +2,7 @@ package rest
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/service"
 	"net/http"
 )
@@ -38,7 +38,7 @@ func (uh *userHandlerImpl) DummyLogin(c *gin.Context) {
 }
 
 func (uh *userHandlerImpl) Register(c *gin.Context) {
-	var user models.User
+	var user model.User
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

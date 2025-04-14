@@ -9,7 +9,7 @@ import (
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/google/uuid"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/internal/service"
 	"github.com/stretchr/testify/assert"
@@ -128,7 +128,7 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 
 	moderatorRole := "moderator"
 	employeeRole := "employee"
-	pvz := &models.PVZ{
+	pvz := &model.PVZ{
 		ID:               uuid.New().String(),
 		RegistrationDate: time.Now(),
 		City:             "Москва",
@@ -150,7 +150,7 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 	assert.Equal(t, pvz.ID, reception.PVZID)
 
 	for i := 0; i < 50; i++ {
-		product := &models.Product{
+		product := &model.Product{
 			Type: "электроника",
 		}
 		createdProduct, err := productService.AddProduct(product, pvz.ID, employeeRole)

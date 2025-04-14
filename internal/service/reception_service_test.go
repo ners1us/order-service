@@ -3,7 +3,7 @@ package service
 import (
 	"errors"
 	"github.com/ners1us/order-service/internal/enums"
-	"github.com/ners1us/order-service/internal/models"
+	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -33,7 +33,7 @@ func TestCloseLastReception_Success(t *testing.T) {
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	lastReception := &models.Reception{ID: "rec_1", Status: "in_progress"}
+	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 	mockReceptionRepo.On("UpdateReceptionStatus", "rec_1", "closed").Return(nil)
 
@@ -52,7 +52,7 @@ func TestCreateReception_PVZNotFound(t *testing.T) {
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	mockPVZRepo.On("GetPVZByID", pvzID).Return(&models.PVZ{}, nil)
+	mockPVZRepo.On("GetPVZByID", pvzID).Return(&model.PVZ{}, nil)
 
 	// Act
 	_, err := service.CreateReception(pvzID, userRole)
@@ -69,9 +69,9 @@ func TestCreateReception_RepoError(t *testing.T) {
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	pvz := &models.PVZ{ID: "test_pvz_id"}
+	pvz := &model.PVZ{ID: "test_pvz_id"}
 	mockPVZRepo.On("GetPVZByID", pvzID).Return(pvz, nil)
-	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&models.Reception{Status: "closed"}, nil)
+	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{Status: "closed"}, nil)
 	mockReceptionRepo.On("CreateReception", mock.Anything).Return(errors.New("create error"))
 
 	// Act
@@ -89,7 +89,7 @@ func TestCloseLastReception_UpdateError(t *testing.T) {
 	service := NewReceptionService(mockReceptionRepo, mockPVZRepo)
 	pvzID := "test_pvz_id"
 	userRole := "employee"
-	lastReception := &models.Reception{ID: "rec_1", Status: "in_progress"}
+	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 	mockReceptionRepo.On("UpdateReceptionStatus", "rec_1", "closed").Return(errors.New("update error"))
 
@@ -110,8 +110,8 @@ func TestCreateReception_GetLastReceptionError(t *testing.T) {
 	pvzID := "test_pvz_id"
 	userRole := "employee"
 
-	mockPVZRepo.On("GetPVZByID", pvzID).Return(&models.PVZ{ID: pvzID}, nil)
-	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&models.Reception{}, errors.New("reception error"))
+	mockPVZRepo.On("GetPVZByID", pvzID).Return(&model.PVZ{ID: pvzID}, nil)
+	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{}, errors.New("reception error"))
 
 	// Act
 	result, err := service.CloseLastReception(pvzID, userRole)
@@ -131,7 +131,7 @@ func TestCreateReception_GetPVZError(t *testing.T) {
 	pvzID := "test_pvz_id"
 	userRole := "employee"
 
-	mockPVZRepo.On("GetPVZByID", pvzID).Return(&models.PVZ{}, errors.New("PVZ error"))
+	mockPVZRepo.On("GetPVZByID", pvzID).Return(&model.PVZ{}, errors.New("PVZ error"))
 
 	// Act
 	result, err := service.CreateReception(pvzID, userRole)
