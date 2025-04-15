@@ -3,7 +3,7 @@ GENERATED_DIR=${CURDIR}/pkg/generated
 PROTODIR=${GENERATED_DIR}/proto
 MODULE=github.com/ners1us/order-service
 
-.PHONY: generate-proto run stop clean-db rest-logs grpc-logs db-logs logs unit-test integration-test test help
+.PHONY: generate-proto run stop db-clean rest-logs grpc-logs db-logs logs unit-test integration-test test help
 
 .SILENT:
 
