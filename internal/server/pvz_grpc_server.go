@@ -65,7 +65,7 @@ func (pgs *pvzGrpcServer) Stop(ctx context.Context) {
 	case <-doneCh:
 		log.Println("gRPC server stopped gracefully")
 	case <-shutdownCtx.Done():
-		defer pgs.server.Stop()
+		pgs.server.Stop()
 		log.Println("gRPC server forced to stop")
 	}
 }
