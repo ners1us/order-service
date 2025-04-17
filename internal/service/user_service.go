@@ -49,7 +49,7 @@ func (us *userServiceImpl) Login(email, password string) (string, error) {
 		return "", enum.ErrUserNotFound
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
-		return "", enum.ErrWrongCredentials
+		return "", enum.ErrWrongPassword
 	}
 	return us.jwtService.GenerateToken(user.ID, user.Role)
 }

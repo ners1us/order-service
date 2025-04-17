@@ -4,7 +4,7 @@ type ErrorType string
 
 const (
 	ErrInvalidToken            ErrorType = "invalid or expired token"
-	ErrWrongCredentials        ErrorType = "wrong username or password"
+	ErrWrongPassword           ErrorType = "wrong password"
 	ErrNoAuthToken             ErrorType = "no auth token provided"
 	ErrUserNotFound            ErrorType = "user not found"
 	ErrPVZNotFound             ErrorType = "pvz not found"

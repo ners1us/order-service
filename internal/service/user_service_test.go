@@ -77,7 +77,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 
 	// Assert
 	assert.Error(t, err)
-	assert.Equal(t, enum.ErrWrongCredentials, err)
+	assert.Equal(t, enum.ErrWrongPassword, err)
 }
 
 func TestLogin_UserNotFound(t *testing.T) {
