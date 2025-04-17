@@ -23,13 +23,15 @@ func NewPVZRepository(db *sql.DB) PVZRepository {
 }
 
 func (pr *pvzRepositoryImpl) CreatePVZ(pvz *model.PVZ) error {
-	_, err := pr.db.Exec("INSERT INTO pvzs (id, registration_date, city) VALUES ($1, $2, $3)", pvz.ID, pvz.RegistrationDate, pvz.City)
+	query := "INSERT INTO pvzs (id, registration_date, city) VALUES ($1, $2, $3)"
+	_, err := pr.db.Exec(query, pvz.ID, pvz.RegistrationDate, pvz.City)
 	return err
 }
 
 func (pr *pvzRepositoryImpl) GetPVZs(page, limit int) ([]model.PVZ, error) {
 	offset := (page - 1) * limit
-	rows, err := pr.db.Query("SELECT id, registration_date, city FROM pvzs ORDER BY id LIMIT $1 OFFSET $2", limit, offset)
+	query := "SELECT id, registration_date, city FROM pvzs ORDER BY id LIMIT $1 OFFSET $2"
+	rows, err := pr.db.Query(query, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +48,8 @@ func (pr *pvzRepositoryImpl) GetPVZs(page, limit int) ([]model.PVZ, error) {
 }
 
 func (pr *pvzRepositoryImpl) GetAllPVZs() ([]model.PVZ, error) {
-	rows, err := pr.db.Query("SELECT id, registration_date, city FROM pvzs")
+	query := "SELECT id, registration_date, city FROM pvzs"
+	rows, err := pr.db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +67,8 @@ func (pr *pvzRepositoryImpl) GetAllPVZs() ([]model.PVZ, error) {
 
 func (pr *pvzRepositoryImpl) GetPVZByID(id string) (*model.PVZ, error) {
 	var pvz model.PVZ
-	err := pr.db.QueryRow("SELECT id, registration_date, city FROM pvzs WHERE id = $1", id).
+	query := "SELECT id, registration_date, city FROM pvzs WHERE id = $1"
+	err := pr.db.QueryRow(query, id).
 		Scan(&pvz.ID, &pvz.RegistrationDate, &pvz.City)
 	if errors.Is(err, sql.ErrNoRows) {
 		return &model.PVZ{}, nil

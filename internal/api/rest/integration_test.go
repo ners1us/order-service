@@ -162,7 +162,8 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 		assert.Equal(t, "электроника", createdProduct.Type)
 	}
 
-	rows, err := db.Query("SELECT COUNT(*) FROM products WHERE reception_id = $1", reception.ID)
+	query := "SELECT COUNT(*) FROM products WHERE reception_id = $1"
+	rows, err := db.Query(query, reception.ID)
 	if err != nil {
 		t.Fatalf("failed to fetch products: %v", err)
 	}

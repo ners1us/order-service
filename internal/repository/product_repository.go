@@ -24,13 +24,15 @@ func NewProductRepository(db *sql.DB) ProductRepository {
 }
 
 func (pr *productRepositoryImpl) CreateProduct(product *model.Product) error {
-	_, err := pr.db.Exec("INSERT INTO products (id, date_time, type, reception_id) VALUES ($1, $2, $3, $4)", product.ID, product.DateTime, product.Type, product.ReceptionID)
+	query := "INSERT INTO products (id, date_time, type, reception_id) VALUES ($1, $2, $3, $4)"
+	_, err := pr.db.Exec(query, product.ID, product.DateTime, product.Type, product.ReceptionID)
 	return err
 }
 
 func (pr *productRepositoryImpl) GetLastProductByReceptionID(receptionID string) (*model.Product, error) {
 	var product model.Product
-	err := pr.db.QueryRow("SELECT id, date_time, type, reception_id FROM products WHERE reception_id = $1 ORDER BY date_time DESC LIMIT 1", receptionID).Scan(&product.ID, &product.DateTime, &product.Type, &product.ReceptionID)
+	query := "SELECT id, date_time, type, reception_id FROM products WHERE reception_id = $1 ORDER BY date_time DESC LIMIT 1"
+	err := pr.db.QueryRow(query, receptionID).Scan(&product.ID, &product.DateTime, &product.Type, &product.ReceptionID)
 	if errors.Is(err, sql.ErrNoRows) {
 		return &model.Product{}, err
 	}
@@ -38,7 +40,8 @@ func (pr *productRepositoryImpl) GetLastProductByReceptionID(receptionID string)
 }
 
 func (pr *productRepositoryImpl) DeleteProduct(id string) error {
-	_, err := pr.db.Exec("DELETE FROM products WHERE id = $1", id)
+	query := "DELETE FROM products WHERE id = $1"
+	_, err := pr.db.Exec(query, id)
 	return err
 }
 
