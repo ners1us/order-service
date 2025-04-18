@@ -68,8 +68,7 @@ func (pr *pvzRepositoryImpl) GetAllPVZs() ([]model.PVZ, error) {
 func (pr *pvzRepositoryImpl) GetPVZByID(id string) (*model.PVZ, error) {
 	var pvz model.PVZ
 	query := "SELECT id, registration_date, city FROM pvzs WHERE id = $1"
-	err := pr.db.QueryRow(query, id).
-		Scan(&pvz.ID, &pvz.RegistrationDate, &pvz.City)
+	err := pr.db.QueryRow(query, id).Scan(&pvz.ID, &pvz.RegistrationDate, &pvz.City)
 	if errors.Is(err, sql.ErrNoRows) {
 		return &model.PVZ{}, nil
 	}
