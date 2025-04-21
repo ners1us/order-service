@@ -35,14 +35,14 @@ func TestCloseLastReception_Success(t *testing.T) {
 	userRole := "employee"
 	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
-	mockReceptionRepo.On("UpdateReceptionStatus", "rec_1", "closed").Return(nil)
+	mockReceptionRepo.On("UpdateReceptionStatus", "rec_1", enum.StatusClosed.String()).Return(nil)
 
 	// Act
 	result, err := service.CloseLastReception(pvzID, userRole)
 
 	// Assert
 	assert.NoError(t, err)
-	assert.Equal(t, "closed", result.Status)
+	assert.Equal(t, enum.StatusClosed.String(), result.Status)
 }
 
 func TestCreateReception_PVZNotFound(t *testing.T) {
@@ -71,7 +71,7 @@ func TestCreateReception_RepoError(t *testing.T) {
 	userRole := "employee"
 	pvz := &model.PVZ{ID: "test_pvz_id"}
 	mockPVZRepo.On("GetPVZByID", pvzID).Return(pvz, nil)
-	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{Status: "closed"}, nil)
+	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{Status: enum.StatusClosed.String()}, nil)
 	mockReceptionRepo.On("CreateReception", mock.Anything).Return(errors.New("create error"))
 
 	// Act
@@ -91,7 +91,7 @@ func TestCloseLastReception_UpdateError(t *testing.T) {
 	userRole := "employee"
 	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
-	mockReceptionRepo.On("UpdateReceptionStatus", "rec_1", "closed").Return(errors.New("update error"))
+	mockReceptionRepo.On("UpdateReceptionStatus", "rec_1", enum.StatusClosed.String()).Return(errors.New("update error"))
 
 	// Act
 	_, err := service.CloseLastReception(pvzID, userRole)

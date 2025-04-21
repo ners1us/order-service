@@ -33,7 +33,7 @@ func (ps *productServiceImpl) AddProduct(product *model.Product, pvzID string, u
 	if err != nil {
 		return &model.Product{}, err
 	}
-	if lastReception.Status != "in_progress" {
+	if lastReception.Status != enum.StatusInProgress.String() {
 		return &model.Product{}, enum.ErrNoOpenReceptionsToAdd
 	}
 	product.ID = uuid.New().String()
@@ -53,7 +53,7 @@ func (ps *productServiceImpl) DeleteLastProduct(pvzID string, userRole string) e
 	if err != nil {
 		return err
 	}
-	if lastReception.Status != "in_progress" {
+	if lastReception.Status != enum.StatusInProgress.String() {
 		return enum.ErrNoOpenReceptionToDelete
 	}
 	lastProduct, err := ps.productRepo.GetLastProductByReceptionID(lastReception.ID)

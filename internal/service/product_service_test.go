@@ -42,7 +42,7 @@ func TestAddProduct_ProductRepoError(t *testing.T) {
 	userRole := "employee"
 
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).
-		Return(&model.Reception{ID: "rec_1", Status: "in_progress"}, nil)
+		Return(&model.Reception{ID: "rec_1", Status: enum.StatusInProgress.String()}, nil)
 	mockProductRepo.On("CreateProduct", mock.Anything).Return(errors.New("product error"))
 
 	// Act
@@ -171,7 +171,7 @@ func TestDeleteLastProduct_GetLastProductError(t *testing.T) {
 	receptionID := "rec_77"
 
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).
-		Return(&model.Reception{ID: receptionID, Status: "in_progress"}, nil)
+		Return(&model.Reception{ID: receptionID, Status: enum.StatusInProgress.String()}, nil)
 	mockProductRepo.On("GetLastProductByReceptionID", receptionID).
 		Return(&model.Product{}, errors.New("product error"))
 

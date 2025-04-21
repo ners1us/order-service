@@ -9,6 +9,7 @@ import (
 	"github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/google/uuid"
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/ners1us/order-service/internal/model"
 	"github.com/ners1us/order-service/internal/repository"
 	"github.com/ners1us/order-service/internal/service"
@@ -146,7 +147,7 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 		t.Fatalf("failed to create reception: %v", err)
 	}
 	assert.NotEmpty(t, reception.ID)
-	assert.Equal(t, "in_progress", reception.Status)
+	assert.Equal(t, enum.StatusInProgress.String(), reception.Status)
 	assert.Equal(t, pvz.ID, reception.PVZID)
 
 	for i := 0; i < 50; i++ {
@@ -175,5 +176,5 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 		t.Fatalf("failed to close reception: %v", err)
 	}
 	assert.Equal(t, reception.ID, closedReception.ID)
-	assert.Equal(t, "closed", closedReception.Status)
+	assert.Equal(t, enum.StatusClosed.String(), closedReception.Status)
 }

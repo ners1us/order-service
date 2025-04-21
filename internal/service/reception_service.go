@@ -42,7 +42,7 @@ func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (
 	if err != nil {
 		return &model.Reception{}, err
 	}
-	if lastReception.Status == "in_progress" {
+	if lastReception.Status == enum.StatusInProgress.String() {
 		return &model.Reception{}, enum.ErrOpenReception
 	}
 
@@ -50,7 +50,7 @@ func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (
 		ID:       uuid.New().String(),
 		DateTime: time.Now(),
 		PVZID:    pvzID,
-		Status:   "in_progress",
+		Status:   enum.StatusInProgress.String(),
 	}
 	if err := rs.receptionRepo.CreateReception(&reception); err != nil {
 		return &model.Reception{}, err
@@ -66,12 +66,12 @@ func (rs *receptionServiceImpl) CloseLastReception(pvzID string, userRole string
 	if err != nil {
 		return &model.Reception{}, err
 	}
-	if lastReception.Status != "in_progress" {
+	if lastReception.Status != enum.StatusInProgress.String() {
 		return &model.Reception{}, enum.ErrNoOpenReceptionToClose
 	}
-	if err := rs.receptionRepo.UpdateReceptionStatus(lastReception.ID, "closed"); err != nil {
+	if err := rs.receptionRepo.UpdateReceptionStatus(lastReception.ID, enum.StatusClosed.String()); err != nil {
 		return &model.Reception{}, err
 	}
-	lastReception.Status = "closed"
+	lastReception.Status = enum.StatusClosed.String()
 	return lastReception, nil
 }

@@ -80,8 +80,8 @@ func TestGetPVZList_Success(t *testing.T) {
 	pvzIDs := []string{"pvz_1", "pvz_2"}
 
 	receptions := []model.Reception{
-		{ID: "rec_1", PVZID: "pvz_1", Status: "closed"},
-		{ID: "rec_2", PVZID: "pvz_2", Status: "in_progress"},
+		{ID: "rec_1", PVZID: "pvz_1", Status: enum.StatusClosed.String()},
+		{ID: "rec_2", PVZID: "pvz_2", Status: enum.StatusInProgress.String()},
 	}
 	receptionIDs := []string{"rec_1", "rec_2"}
 
