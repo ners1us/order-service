@@ -37,7 +37,7 @@ func TestAddProduct_ProductRepoError(t *testing.T) {
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 
-	product := &model.Product{}
+	product := new(model.Product)
 	pvzID := "test_pvz_id"
 	userRole := enum.RoleEmployee.String()
 
