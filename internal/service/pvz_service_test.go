@@ -50,8 +50,8 @@ func TestCreatePVZ_ValidCitySPb(t *testing.T) {
 	mockReceptionRepo := new(repository.MockReceptionRepository)
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
-	pvz := &model.PVZ{City: "Санкт-Петербург"}
-	userRole := "moderator"
+	pvz := &model.PVZ{City: enum.CitySaintPetersburg.String()}
+	userRole := enum.RoleModerator.String()
 	mockPVZRepo.On("CreatePVZ", pvz).Return(nil)
 
 	// Act
@@ -74,8 +74,8 @@ func TestGetPVZList_Success(t *testing.T) {
 	endDate := time.Date(2025, 12, 31, 23, 59, 59, 0, time.UTC)
 
 	pvzs := []model.PVZ{
-		{ID: "pvz_1", City: "Москва"},
-		{ID: "pvz_2", City: "Санкт-Петербург"},
+		{ID: "pvz_1", City: enum.CityMoscow.String()},
+		{ID: "pvz_2", City: enum.CitySaintPetersburg.String()},
 	}
 	pvzIDs := []string{"pvz_1", "pvz_2"}
 

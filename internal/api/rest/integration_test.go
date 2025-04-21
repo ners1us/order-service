@@ -132,7 +132,7 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 	pvz := &model.PVZ{
 		ID:               uuid.New().String(),
 		RegistrationDate: time.Now(),
-		City:             "Москва",
+		City:             enum.CityMoscow.String(),
 	}
 
 	createdPVZ, err := pvzService.CreatePVZ(pvz, moderatorRole)

@@ -30,7 +30,7 @@ func (ps *pvzServiceImpl) CreatePVZ(pvz *model.PVZ, userRole string) (*model.PVZ
 	if userRole != enum.RoleModerator.String() {
 		return &model.PVZ{}, enum.ErrNoModeratorRights
 	}
-	if pvz.City != "Москва" && pvz.City != "Санкт-Петербург" && pvz.City != "Казань" {
+	if !enum.IsValidCity(enum.City(pvz.City)) {
 		return &model.PVZ{}, enum.ErrInvalidCity
 	}
 	if err := ps.pvzRepo.CreatePVZ(pvz); err != nil {
