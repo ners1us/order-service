@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/ners1us/order-service/internal/enum"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -10,7 +11,7 @@ func TestGenerateToken(t *testing.T) {
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
 	userID := "222"
-	role := "employee"
+	role := enum.RoleEmployee.String()
 
 	// Act
 	token, err := jwtService.GenerateToken(userID, role)
@@ -25,7 +26,7 @@ func TestValidateToken(t *testing.T) {
 	secretKey := "secret_for_testing"
 	jwtService := NewJWTService(secretKey)
 	userID := "444"
-	role := "employee"
+	role := enum.RoleEmployee.String()
 	token, _ := jwtService.GenerateToken(userID, role)
 
 	// Act

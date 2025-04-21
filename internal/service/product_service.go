@@ -26,7 +26,7 @@ func NewProductService(receptionRepo repository.ReceptionRepository, productRepo
 }
 
 func (ps *productServiceImpl) AddProduct(product *model.Product, pvzID string, userRole string) (*model.Product, error) {
-	if userRole != "employee" {
+	if userRole != enum.RoleEmployee.String() {
 		return &model.Product{}, enum.ErrNoEmployeeRights
 	}
 	lastReception, err := ps.receptionRepo.GetLastReceptionByPVZID(pvzID)
@@ -46,7 +46,7 @@ func (ps *productServiceImpl) AddProduct(product *model.Product, pvzID string, u
 }
 
 func (ps *productServiceImpl) DeleteLastProduct(pvzID string, userRole string) error {
-	if userRole != "employee" {
+	if userRole != enum.RoleEmployee.String() {
 		return enum.ErrNoEmployeeRights
 	}
 	lastReception, err := ps.receptionRepo.GetLastReceptionByPVZID(pvzID)

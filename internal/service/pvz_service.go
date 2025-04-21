@@ -27,7 +27,7 @@ func NewPVZService(pvzRepo repository.PVZRepository, receptionRepo repository.Re
 }
 
 func (ps *pvzServiceImpl) CreatePVZ(pvz *model.PVZ, userRole string) (*model.PVZ, error) {
-	if userRole != "moderator" {
+	if userRole != enum.RoleModerator.String() {
 		return &model.PVZ{}, enum.ErrNoModeratorRights
 	}
 	if pvz.City != "Москва" && pvz.City != "Санкт-Петербург" && pvz.City != "Казань" {

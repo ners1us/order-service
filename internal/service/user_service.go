@@ -55,7 +55,7 @@ func (us *userServiceImpl) Login(email, password string) (string, error) {
 }
 
 func (us *userServiceImpl) DummyLogin(role string) (string, error) {
-	if role != "employee" && role != "moderator" {
+	if !enum.IsValidRole(enum.Role(role)) {
 		return "", enum.ErrInvalidRole
 	}
 	dummyUserID := "dummy_" + role

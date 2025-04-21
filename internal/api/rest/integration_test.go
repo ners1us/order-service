@@ -127,8 +127,8 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 	receptionService := service.NewReceptionService(receptionRepo, pvzRepo)
 	productService := service.NewProductService(receptionRepo, productRepo)
 
-	moderatorRole := "moderator"
-	employeeRole := "employee"
+	moderatorRole := enum.RoleModerator.String()
+	employeeRole := enum.RoleEmployee.String()
 	pvz := &model.PVZ{
 		ID:               uuid.New().String(),
 		RegistrationDate: time.Now(),

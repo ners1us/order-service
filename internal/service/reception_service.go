@@ -26,7 +26,7 @@ func NewReceptionService(receptionRepo repository.ReceptionRepository, pvzRepo r
 }
 
 func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (*model.Reception, error) {
-	if userRole != "employee" {
+	if userRole != enum.RoleEmployee.String() {
 		return &model.Reception{}, enum.ErrNoEmployeeRights
 	}
 
@@ -59,7 +59,7 @@ func (rs *receptionServiceImpl) CreateReception(pvzID string, userRole string) (
 }
 
 func (rs *receptionServiceImpl) CloseLastReception(pvzID string, userRole string) (*model.Reception, error) {
-	if userRole != "employee" {
+	if userRole != enum.RoleEmployee.String() {
 		return &model.Reception{}, enum.ErrNoEmployeeRights
 	}
 	lastReception, err := rs.receptionRepo.GetLastReceptionByPVZID(pvzID)

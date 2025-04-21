@@ -17,8 +17,8 @@ func TestAddProduct_Success(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(model.Product)
 	pvzID := "test_pvz_id"
-	userRole := "employee"
-	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
+	userRole := enum.RoleEmployee.String()
+	lastReception := &model.Reception{ID: "rec_1", Status: enum.StatusInProgress.String()}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 	mockProductRepo.On("CreateProduct", mock.Anything).Return(nil)
 
@@ -39,7 +39,7 @@ func TestAddProduct_ProductRepoError(t *testing.T) {
 
 	product := &model.Product{}
 	pvzID := "test_pvz_id"
-	userRole := "employee"
+	userRole := enum.RoleEmployee.String()
 
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).
 		Return(&model.Reception{ID: "rec_1", Status: enum.StatusInProgress.String()}, nil)
@@ -60,7 +60,7 @@ func TestAddProduct_NotEmployee(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(model.Product)
 	pvzID := "test_pvz_id2"
-	userRole := "moderator"
+	userRole := enum.RoleModerator.String()
 
 	// Act
 	_, err := service.AddProduct(product, pvzID, userRole)
@@ -77,8 +77,8 @@ func TestAddProduct_NoOpenReception(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(model.Product)
 	pvzID := "test_pvz_id"
-	userRole := "employee"
-	lastReception := &model.Reception{Status: "closed"}
+	userRole := enum.RoleEmployee.String()
+	lastReception := &model.Reception{Status: enum.StatusClosed.String()}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 
 	// Act
@@ -111,7 +111,7 @@ func TestDeleteLastProduct_EmptyReceptionID(t *testing.T) {
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
-	userRole := "employee"
+	userRole := enum.RoleEmployee.String()
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{ID: ""}, nil)
 
 	// Act
@@ -129,7 +129,7 @@ func TestAddProduct_EmptyPVZID(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	product := new(model.Product)
 	pvzID := ""
-	userRole := "employee"
+	userRole := enum.RoleEmployee.String()
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(&model.Reception{}, nil)
 
 	// Act
@@ -146,8 +146,8 @@ func TestDeleteLastProduct_ProductRepoError(t *testing.T) {
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 	pvzID := "test_pvz_id"
-	userRole := "employee"
-	lastReception := &model.Reception{ID: "rec_1", Status: "in_progress"}
+	userRole := enum.RoleEmployee.String()
+	lastReception := &model.Reception{ID: "rec_1", Status: enum.StatusInProgress.String()}
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).Return(lastReception, nil)
 	mockProductRepo.On("GetLastProductByReceptionID", lastReception.ID).Return(&model.Product{ID: "prod_1"}, nil)
 	mockProductRepo.On("DeleteProduct", "prod_1").Return(errors.New("delete error"))
@@ -167,7 +167,7 @@ func TestDeleteLastProduct_GetLastProductError(t *testing.T) {
 	service := NewProductService(mockReceptionRepo, mockProductRepo)
 
 	pvzID := "test_pvz_id"
-	userRole := "employee"
+	userRole := enum.RoleEmployee.String()
 	receptionID := "rec_77"
 
 	mockReceptionRepo.On("GetLastReceptionByPVZID", pvzID).

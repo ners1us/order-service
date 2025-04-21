@@ -32,7 +32,7 @@ func TestDummyLogin_Moderator(t *testing.T) {
 	jwtService := NewJWTService(secretKey)
 	mockUserRepo := new(repository.MockUserRepository)
 	service := NewUserService(mockUserRepo, jwtService)
-	role := "moderator"
+	role := enum.RoleModerator.String()
 
 	// Act
 	token, err := service.DummyLogin(role)
@@ -69,7 +69,7 @@ func TestLogin_WrongPassword(t *testing.T) {
 	email := "coolmail@example.com"
 	password := "password12345"
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte("correct_password"), bcrypt.DefaultCost)
-	user := &model.User{ID: "user1", Email: email, Password: string(hashedPassword), Role: "employee"}
+	user := &model.User{ID: "user1", Email: email, Password: string(hashedPassword), Role: enum.RoleEmployee.String()}
 	mockUserRepo.On("GetUserByEmail", email).Return(user, nil)
 
 	// Act

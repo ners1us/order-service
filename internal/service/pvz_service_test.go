@@ -17,7 +17,7 @@ func TestCreatePVZ_InvalidRole(t *testing.T) {
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 	pvz := new(model.PVZ)
-	userRole := "employee"
+	userRole := enum.RoleEmployee.String()
 
 	// Act
 	_, err := service.CreatePVZ(pvz, userRole)
@@ -34,7 +34,7 @@ func TestCreatePVZ_InvalidCity(t *testing.T) {
 	mockProductRepo := new(repository.MockProductRepository)
 	service := NewPVZService(mockPVZRepo, mockReceptionRepo, mockProductRepo)
 	pvz := &model.PVZ{City: "InvalidCity"}
-	userRole := "moderator"
+	userRole := enum.RoleModerator.String()
 
 	// Act
 	_, err := service.CreatePVZ(pvz, userRole)
