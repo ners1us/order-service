@@ -152,7 +152,7 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 
 	for i := 0; i < 50; i++ {
 		product := &model.Product{
-			Type: "электроника",
+			Type: enum.ProductElectronics.String(),
 		}
 		createdProduct, err := productService.AddProduct(product, pvz.ID, employeeRole)
 		if err != nil {
@@ -160,7 +160,7 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 		}
 		assert.NotEmpty(t, createdProduct.ID, i+1)
 		assert.Equal(t, reception.ID, createdProduct.ReceptionID)
-		assert.Equal(t, "электроника", createdProduct.Type)
+		assert.Equal(t, enum.ProductElectronics.String(), createdProduct.Type)
 	}
 
 	query := "SELECT COUNT(*) FROM products WHERE reception_id = $1"
