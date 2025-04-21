@@ -163,16 +163,10 @@ func TestPVZReceptionProductFlow_Integration(t *testing.T) {
 	}
 
 	query := "SELECT COUNT(*) FROM products WHERE reception_id = $1"
-	rows, err := db.Query(query, reception.ID)
-	if err != nil {
-		t.Fatalf("failed to fetch products: %v", err)
-	}
-	defer rows.Close()
 	var count int
-	if rows.Next() {
-		if err := rows.Scan(&count); err != nil {
-			t.Fatalf("failed to read products: %v", err)
-		}
+	err = db.QueryRow(query, reception.ID).Scan(&count)
+	if err != nil {
+		t.Fatalf("failed to count products: %v", err)
 	}
 	assert.Equal(t, 50, count)
 
